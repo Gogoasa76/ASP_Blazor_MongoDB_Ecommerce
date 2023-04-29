@@ -1,5 +1,6 @@
 using Licenta_Ecommerce_Mongo.Authentication;
 using Licenta_Ecommerce_Mongo.Data;
+using Licenta_Ecommerce_Mongo.DBConnections;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
@@ -14,6 +15,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddSingleton<UserAccountService>();
+builder.Services.AddSingleton<MongoDBWrapper>();
 
 var app = builder.Build();
 

@@ -1,0 +1,42 @@
+﻿@*@using Licenta_Ecommerce_Mongo.Data;
+@using Licenta_Ecommerce_Mongo.Models;
+
+<div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+    <div class="card-header">
+        <h3>@Name</h3>
+    </div>
+    <img class="card-img-top imageThumbnail" src="@ImageBase64" />
+    <div class="card-body text-center">@Description</div>
+    <div class="card-body text-center text-capitalize">Price: @Price</div>
+    @if (Discount > 0)
+    {
+        <div class="card-body text-center">Discount: @Discount %</div>
+    }
+    <div class="card-body text-center text-capitalize">Tags: @Tags</div>
+    <div class="card-footer text-center">
+        <button class="btn btn-primary m-1" onclick="@(async()=>await AddItemToUserCart())">Add to  cart</button>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public string ID { get; set; } = "";
+    [Parameter]
+    public string Name { get; set; } = "Name";
+    [Parameter]
+    public string Description { get; set; } = "Description";
+    [Parameter]
+    public int Price { get; set; } = 0;
+    [Parameter]
+    public int Discount { get; set; } = 0;
+    [Parameter]
+    public string ImageBase64 { get; set; } = "";
+    [Parameter]
+    public string Tags { get; set; } = "";
+
+
+    private Request request = new();
+    public async Task AddItemToUserCart()
+    {
+
+    }
+}*@

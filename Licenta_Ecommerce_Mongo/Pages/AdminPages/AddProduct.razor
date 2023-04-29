@@ -1,15 +1,7 @@
-﻿@using Licenta_Ecommerce_Mongo.DBConnections
-@using Licenta_Ecommerce_Mongo.Data
-@page "/addProduct"
+﻿@page "/addProduct"
 
 <h3>AddProduct</h3>
 
-@code {
-	protected override async Task OnInitializedAsync()
-	{
-		MongoDBWrapper mongo=new();
-		Product product = new Product("nume", "Descriere produs", "Imagine", new() { "tag1", "tag2" }, -100, 199, -20);
-		await mongo.AddItem(product);
-		 
-	}
+@code{
+
 }

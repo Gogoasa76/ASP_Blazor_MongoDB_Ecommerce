@@ -1,4 +1,6 @@
-﻿namespace Licenta_Ecommerce_Mongo.Authentication
+﻿using Licenta_Ecommerce_Mongo.Data;
+
+namespace Licenta_Ecommerce_Mongo.Authentication
 {
     public class UserAccountService
     {
