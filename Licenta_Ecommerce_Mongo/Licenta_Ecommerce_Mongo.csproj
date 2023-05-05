@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Poze\50193312_303.jpg" />
+    <None Include="wwwroot\Poze\9e23079e48915bc246b3b34426ef47b7.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bootstrap" Version="5.2.3" />
     <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
   </ItemGroup>
 

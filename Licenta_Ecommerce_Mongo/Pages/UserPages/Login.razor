@@ -1,10 +1,13 @@
 ﻿@page "/login"
 
 @using Licenta_Ecommerce_Mongo.Authentication;
+@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
 @inject UserAccountService userAccountService
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
+@inject MongoDBWrapper mongo
 
 <div class="row">
     <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
@@ -13,11 +16,11 @@
         </div>
         <div class="mb-3">
             <label>User Name</label>
-            <input @bind="model.UserName" class="form-control" placeholder="User Name" />
+            <input @bind="username" class="form-control" placeholder="User Name" />
         </div>
         <div class="mb-3">
             <label>Password</label>
-            <input @bind="model.Password" type="password" class="form-control" placeholder="Password" />
+            <input @bind="password" type="password" class="form-control" placeholder="Password" />
         </div>
         <div class="mb-3 d-grid gap-2">
             <button @onclick="Authenticate" class="btn btn-primary">Login</button>
@@ -26,29 +29,35 @@
 </div>
 
 @code {
-    private class Model
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
+    string username = string.Empty;
+    string password = string.Empty;
 
-    private Model model = new Model();
 
     private async Task Authenticate()
     {
-        var userAccount = userAccountService.GetByUserName(model.UserName);
-        if (userAccount == null || userAccount.Password != model.Password)
+        UserAccount user;
+        password = Hashing.GetHash(password);
+
+        user = await mongo.CheckUser(username, password);
+        
+        password = string.Empty;
+        username = string.Empty;
+
+        if (user.UserName == null || user.UserName == "")
         {
             await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
             return;
         }
 
-        CustomAuthStateProvider customAuthStateProvider = (CustomAuthStateProvider)authStateProvider;
+        
+        
+        var customAuthStateProvider = (CustomAuthStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession
             {
-                UserName = userAccount.UserName,
-                Role = userAccount.Role
-    });
+                UserName = user.UserName,
+                Role=user.Role,
+                ID = user.Id
+            });
         navManager.NavigateTo("/", true);
     }
 }

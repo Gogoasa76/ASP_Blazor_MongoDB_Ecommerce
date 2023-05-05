@@ -1,42 +1,54 @@
-﻿@*@using Licenta_Ecommerce_Mongo.Data;
-@using Licenta_Ecommerce_Mongo.Models;
+﻿@using Licenta_Ecommerce_Mongo.Data;
+@page "/card"
 
-<div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
-    <div class="card-header">
-        <h3>@Name</h3>
+<div class="card" style="width: 250px">
+    <img class="card-img-top p-1 rounded" style="width: 100%; height: 100%" src="/Poze/9e23079e48915bc246b3b34426ef47b7.gif" />
+    <div class="card-text m-3">
+        <span class="text-break">@Name</span>
     </div>
-    <img class="card-img-top imageThumbnail" src="@ImageBase64" />
-    <div class="card-body text-center">@Description</div>
-    <div class="card-body text-center text-capitalize">Price: @Price</div>
-    @if (Discount > 0)
-    {
-        <div class="card-body text-center">Discount: @Discount %</div>
-    }
-    <div class="card-body text-center text-capitalize">Tags: @Tags</div>
-    <div class="card-footer text-center">
-        <button class="btn btn-primary m-1" onclick="@(async()=>await AddItemToUserCart())">Add to  cart</button>
+    <div class="card-text">
+        <span class="text-black fs-4 ms-3">@Price</span>
+        <span class="text-wrap badge bg-warning fs-6 ms-3">@Discount%</span>
+    </div>
+    <div class="card-text ">
+        <span class="ms-3 fs-2">999999</span>
+        <span class="">Lei</span>
+    </div>
+    <div class="d-grid mx-auto pb-1">
+        <button type="button" class="btn btn-danger btn-sm" onclick="@(async()=>await AddItemToCart())">
+            <span class="">
+                <span class="">
+                    Adauga in cos
+                </span>
+            </span>
+        </button>
     </div>
 </div>
-@code {
+
+@code{
     [Parameter]
-    public string ID { get; set; } = "";
+    public string Id { get; set; } = "";
     [Parameter]
     public string Name { get; set; } = "Name";
     [Parameter]
-    public string Description { get; set; } = "Description";
+    public string Description { get; set; }= "";
     [Parameter]
-    public int Price { get; set; } = 0;
+    public int Price { get; set; }= 9999;
     [Parameter]
-    public int Discount { get; set; } = 0;
+    public int Discount { get; set; }= 20;
+    [Parameter]
+    public int Quantity { get; set; } = 100;
     [Parameter]
     public string ImageBase64 { get; set; } = "";
-    [Parameter]
-    public string Tags { get; set; } = "";
 
-
-    private Request request = new();
-    public async Task AddItemToUserCart()
+    public void Procent()
     {
-
+        float Procent = ((float)Price / (float)Discount) * 100;
     }
-}*@
+
+
+    public Task AddItemToCart()
+    {
+        return null;
+    }
+}

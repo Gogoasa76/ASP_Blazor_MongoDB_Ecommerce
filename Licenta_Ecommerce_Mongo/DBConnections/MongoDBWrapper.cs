@@ -102,12 +102,12 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
                 .Set(P => P.Role, userAccount.Role);
             await collectionUser.UpdateOneAsync(P => P.Id == userAccount.Id, definition);
         }
-        public async Task<UserAccount> CheckUser(string id, string password)
+        public async Task<UserAccount> CheckUser(string username, string password)
         {
             UserAccount userAccount;
             try
             {
-                userAccount = (await collectionUser.FindAsync(U => (U.Id == id && U.Password == password))).First();
+                userAccount = (await collectionUser.FindAsync(U => (U.UserName == username && U.Password == password))).First();
                 userAccount.Password = "";
             }
             catch (Exception)

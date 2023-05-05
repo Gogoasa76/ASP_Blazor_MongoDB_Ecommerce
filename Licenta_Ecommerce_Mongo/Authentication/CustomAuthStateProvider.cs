@@ -25,8 +25,9 @@ namespace Licenta_Ecommerce_Mongo.Authentication
                 var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, userSession.UserName),
-                    new Claim(ClaimTypes.Role, userSession.Role)
-                }, "CustomAuth"));
+                    new Claim(ClaimTypes.Role, userSession.Role),
+                    new Claim(ClaimTypes.NameIdentifier, userSession.ID)
+                }, "CustomAuth")); ;
                 return await Task.FromResult(new AuthenticationState(claimsPrincipal));
             }
             catch
@@ -45,7 +46,8 @@ namespace Licenta_Ecommerce_Mongo.Authentication
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, userSession.UserName),
-                    new Claim(ClaimTypes.Role, userSession.Role)
+                    new Claim(ClaimTypes.Role, userSession.Role),
+                    new Claim(ClaimTypes.NameIdentifier, userSession.ID)
                 }));
             }
             else
