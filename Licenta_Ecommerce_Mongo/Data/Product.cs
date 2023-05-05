@@ -15,6 +15,11 @@ namespace Licenta_Ecommerce_Mongo.Data
         public int Discount { get; set; } = 0;
         public int Quantity { get; set; } = 0;
 
+        public Product()
+        {
+
+        }
+
         public Product(string name,string description, List<string> imageBase64,List<string> tags,int price,int discount,int quantity)
         {
             Name = name;
