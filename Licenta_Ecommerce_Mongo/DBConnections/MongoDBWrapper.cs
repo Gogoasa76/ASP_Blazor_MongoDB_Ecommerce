@@ -120,7 +120,18 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
 
         //
         #region Order
-
+        public async Task<List<Order>> GetAllOrders()
+        {
+            return await collectionOrder.Find(_ => true).ToListAsync();
+        }
+        public async Task<Order> GetOrderstByUserId(string id)
+        {
+            return await collectionOrder.Find((P) => P.UserID == id).FirstAsync();
+        }
+        public async Task<Order> GetOrderstByDate(string date)
+        {
+            return await collectionOrder.Find((P) => P.Date == date).FirstAsync();
+        }
         #endregion
     }
 }
