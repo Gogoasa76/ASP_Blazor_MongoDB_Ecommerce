@@ -4,9 +4,48 @@
 @inject NavigationManager navManager
 <PageTitle>Magazin</PageTitle>
 
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-<div class="page">
-    <div class="sidebar">
+<MudLayout>
+    <MudAppBar Elevation="1"  Style="@($"background:{Colors.DeepPurple.Lighten1};")" >
+        <MudText Typo="Typo.h5" Class="ml-3">Magazin</MudText>
+
+        <MudSpacer />
+
+        <AuthorizeView>
+            <Authorized>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="cart" Class="mx-3">cart</MudButton>
+                <MudButton @onclick="Logout" href="javascript:void(0)">Logout</MudButton>
+            </Authorized>
+            <NotAuthorized>
+                <MudButton Variant="Variant.Filled" Color="Color.Info" Class="mx-3" href="/login">LogIn</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="" href="/signup">SignUp</MudButton>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudAppBar>
+    <MudMainContent>
+        <NavMenu />
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private async Task Logout()
+    {
+        var customAuthStateProvider = (CustomAuthStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(null);
+        navManager.NavigateTo("/", true);
+    }
+}
+
+
+
+
+
+ @*<div class="sidebar">
+    <div class=" ">
         <NavMenu />
     </div>
 
@@ -27,13 +66,4 @@
             @Body
         </article>
     </main>
-</div>
-
-@code {
-    private async Task Logout()
-    {
-        var customAuthStateProvider = (CustomAuthStateProvider)authStateProvider;
-        await customAuthStateProvider.UpdateAuthenticationState(null);
-        navManager.NavigateTo("/", true);
-    }
-}
+</div>*@

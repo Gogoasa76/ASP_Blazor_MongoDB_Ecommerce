@@ -51,8 +51,6 @@
 
     private async Task Signup()
     {
-
-
         if (password.Equals(passwordRepet) && password != "")
         {
             user.Role = "User";
@@ -66,6 +64,5 @@
         {
             await js.InvokeVoidAsync("alert", "Passwords don't match");
         }
-
     }
 }

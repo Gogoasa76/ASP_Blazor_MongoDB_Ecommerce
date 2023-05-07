@@ -1,7 +1,70 @@
 ﻿@page "/addProduct"
+@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
+@inject MongoDBWrapper mongo
 
 <h3>AddProduct</h3>
+<div class="row">
+    <div class="form-group mt-2">
+        <label class="form-label"for="title">Name</label>
+        <input class="form-control" placeholder="Prduct name" @bind="product.Name" type="text"/>
+    </div>
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Description</label>
+        <input class="form-control" placeholder="Description" @bind="product.Description" type="text" />
+    </div>
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Price</label>
+        <input class="form-control" placeholder="Price" @bind="product.Price" type="number" />
+    </div>
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Discount</label>
+        <input class="form-control" placeholder="Discount" @bind="product.Discount" type="number" />
+    </div>
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Quantity</label>
+        <input class="form-control" placeholder="Quantity" @bind="product.Quantity" type="number" />
+    </div>
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Tags</label>
+        <input class="form-control" placeholder="Tags" @bind="tagsAsString" type="text" />
+    </div>
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">
+            <InputFile OnChange="@OnChange" multiple></InputFile>
+        </label>
+    </div>
+    <div class="form-group mt-3">
+        <button class="btn btn-primry" @onclick="SubmitItem">Add</button>
+    </div>
+</div>
 
 @code{
+    Product product = new();
 
+    string tagsAsString = string.Empty;
+
+    private async void SubmitItem()
+    {
+        product.Tags = tagsAsString.ToLower().Split(",").ToList();
+        await mongo.AddItem(product);
+    }
+
+    async Task OnChange(InputFileChangeEventArgs e)
+    {
+        string format = "image/jpeg";
+        long maxSize = 512000000;
+
+        foreach (IBrowserFile file in e.GetMultipleFiles())
+        {
+            if (string.Equals(file.ContentType, format, StringComparison.OrdinalIgnoreCase))
+            {
+                IBrowserFile image = await file.RequestImageFileAsync(format, 1000, 1000);
+                byte[] buffer = new byte[image.Size];
+
+                await image.OpenReadStream(maxAllowedSize: maxSize).ReadAsync(buffer);
+                product.ImageBase64 = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            }
+        }
+    }
 }

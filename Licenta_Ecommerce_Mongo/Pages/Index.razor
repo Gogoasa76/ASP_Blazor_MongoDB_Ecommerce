@@ -3,6 +3,7 @@
 @using Licenta_Ecommerce_Mongo.Data;
 @inject IJSRuntime js
 @inject MongoDBWrapper mongo
+
 <PageTitle>Index</PageTitle>
 
 <AuthorizeView>
@@ -14,13 +15,6 @@
         <h1>Hello, Guest!</h1>
     </NotAuthorized>
 </AuthorizeView>
-
-<AuthorizeView>
-    <Authorized>
-
-    </Authorized>
-</AuthorizeView>
-
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -33,6 +27,6 @@
     }
     public async void AddProduct()
     {
-        await mongo.AddItem(new("nume","description",new(),new (),1,1,1));
+        await mongo.AddItem(new("nume","description","image",new (),1,1,1));
     }
 }

@@ -9,7 +9,7 @@ namespace Licenta_Ecommerce_Mongo.Data
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public List<string> ImageBase64 { get; set; }
+        public string ImageBase64 { get; set; }
         public List<string> Tags { get; set; }
         public int Price { get; set; } = 0;
         public int Discount { get; set; } = 0;
@@ -20,7 +20,7 @@ namespace Licenta_Ecommerce_Mongo.Data
 
         }
 
-        public Product(string name,string description, List<string> imageBase64,List<string> tags,int price,int discount,int quantity)
+        public Product(string name,string description, string imageBase64,List<string> tags,int price,int discount,int quantity)
         {
             Name = name;
             Description = description;

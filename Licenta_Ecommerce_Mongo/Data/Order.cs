@@ -8,7 +8,7 @@ namespace Licenta_Ecommerce_Mongo.Data
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; } = string.Empty;
         public string UserID { get; set; }= string.Empty;
-        public List<string> ProductId { get; set; } = new List<string>();
+        public Dictionary<string,int> ProductId { get; set; } = new();
         public string Date { get; set; } = string.Empty;
     }
 }

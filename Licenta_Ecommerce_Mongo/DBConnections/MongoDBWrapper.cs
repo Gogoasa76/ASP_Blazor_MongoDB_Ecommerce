@@ -31,7 +31,7 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
         }
 
         //
-        #region Product_Area
+        #region Product
         public async Task<List<Product>> GetAll()
         {
             return await collectionProduct.Find(_ => true).ToListAsync();
