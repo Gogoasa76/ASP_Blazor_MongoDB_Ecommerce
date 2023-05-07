@@ -116,6 +116,19 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
             }
             return userAccount;
         }
+
+        public async void CheckForDefaultAdmin() {
+            List<UserAccount> users = await collectionUser.Find(P => P.Role == "Admin").ToListAsync();
+            if (users.Count==0)
+            {
+                UserAccount admin= new();
+                admin.UserName = "admin";
+                admin.Password = Hashing.GetHash("1234");
+                admin.Role = "Admin";
+
+                await AddUser(admin);
+            }
+        }
         #endregion
 
         //

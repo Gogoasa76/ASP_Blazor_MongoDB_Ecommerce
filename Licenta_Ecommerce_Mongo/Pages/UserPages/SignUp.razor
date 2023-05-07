@@ -55,6 +55,7 @@
 
         if (password.Equals(passwordRepet) && password != "")
         {
+            user.Role = "User";
             user.Password = Hashing.GetHash(password);
             password = string.Empty;
             passwordRepet = string.Empty;
