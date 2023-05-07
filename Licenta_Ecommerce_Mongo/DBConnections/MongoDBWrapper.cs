@@ -116,11 +116,35 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
             }
             return userAccount;
         }
+
+        public async void CheckForDefaultAdmin() {
+            List<UserAccount> users = await collectionUser.Find(P => P.Role == "Admin").ToListAsync();
+            if (users.Count==0)
+            {
+                UserAccount admin= new();
+                admin.UserName = "admin";
+                admin.Password = Hashing.GetHash("1234");
+                admin.Role = "Admin";
+
+                await AddUser(admin);
+            }
+        }
         #endregion
 
         //
         #region Order
-
+        public async Task<List<Order>> GetAllOrders()
+        {
+            return await collectionOrder.Find(_ => true).ToListAsync();
+        }
+        public async Task<Order> GetOrderstByUserId(string userID)
+        {
+            return await collectionOrder.Find((P) => P.UserID == userID).FirstAsync();
+        }
+        public async Task<Order> GetOrderstByDate(string date)
+        {
+            return await collectionOrder.Find((P) => P.Date == date).FirstAsync();
+        }
         #endregion
     }
 }
