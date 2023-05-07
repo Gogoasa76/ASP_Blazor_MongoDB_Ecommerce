@@ -1,21 +1,26 @@
-﻿@using Licenta_Ecommerce_Mongo.Data;
-@page "/card"
+﻿@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime js
+@inject MongoDBWrapper mongo;
+
 
 <div class="card" style="width: 250px">
-    <img class="card-img-top p-1 rounded" style="width: 100%; height: 100%" src="/Poze/50193312_303.jpg" />
+    <img class="card-img-top p-1 rounded" style="width: 100%; height: 100%" src="@product.ImageBase64" />
     <div class="card-text m-3">
         <span class="text-break">@product.Name</span>
     </div>
     <div class="card-text">
-        <span class="text-black fs-4 ms-3">@product.Price</span>
+        @*<span class="text-black fs-4 ms-3">@product.Price</span>*@
         <span class="text-wrap badge bg-warning fs-6 ms-3">@product.Discount%</span>
     </div>
     <div class="card-text ">
-        <span class="ms-3 fs-2">999999</span>
+        <span class="ms-3 fs-2">@product.Price</span>
         <span class="">Lei</span>
     </div>
     <div class="d-grid mx-auto pb-1">
-        <button type="button" class="btn btn-danger btn-sm" onclick="@(async()=>await AddItemToCart())">
+        <button type="button" class="btn btn-danger btn-sm" @onclick="AddItemToCart">
             <span class="">
                 <span class="">
                     Adauga in cos
@@ -28,15 +33,27 @@
 @code{
     [Parameter]
     public Product product { get; set; } = new Product();
-
+    //[CascadingParameter]
+    //private Task<AuthenticationState> authenticationState { get; set; }
     public void Procent()
     {
         float Procent = ((float)product.Price/ (float)product.Discount) * 100;
     }
 
 
-    public Task AddItemToCart()
+    public async void AddItemToCart()
     {
-        return null;
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        string userId = user.Identity.Name;
+
+
+        if(userId == null)
+        {
+            await js.InvokeVoidAsync("alert", "Login to add to cart");
+            return;
+        }
+        await mongo.AddItemToCart(userId, product.Id);
+
     }
 }

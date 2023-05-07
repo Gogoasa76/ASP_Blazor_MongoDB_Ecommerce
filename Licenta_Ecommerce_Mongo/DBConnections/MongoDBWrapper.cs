@@ -108,6 +108,16 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
                 .Set(P => P.Role, userAccount.Role);
             await collectionUser.UpdateOneAsync(P => P.Id == userAccount.Id, definition);
         }
+        public async Task AddItemToCart(string userId,string productID) {
+            UserAccount user = await GetUserById(userId);
+            List<string> cart = user.ProductCart;
+            cart.Add(productID);
+
+            UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.ProductCart, cart);
+
+            await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
+        }
+
         public async Task<UserAccount> CheckUser(string username, string password)
         {
             UserAccount userAccount;
