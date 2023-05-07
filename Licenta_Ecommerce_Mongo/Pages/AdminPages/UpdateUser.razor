@@ -1,7 +1,39 @@
-﻿@page "/updateUser"
+﻿@page "/updateUser/{id}"
+@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
+@inject NavigationManager nav;
+@inject MongoDBWrapper mongo;
 
-<h3>UpdateUser</h3>
+<div class="row">
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Name</label>
+        <input class="form-control" placeholder="Place holder" @bind="user.UserName" type="text" />
+    </div>
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Email</label>
+        <input class="form-control" placeholder="Place holder" @bind="user.Email" type="text" />
+    </div>
+    
+    <div class="form-group mt-2">
+        <label class="form-label" for="title">Role</label>
+        <input class="form-control" placeholder="Place holder" @bind="user.Role" type="text" />
+    </div>
+    <div class="form-group mt-3">
+        <button type="button" class="col-sm btn btn-primary" @onclick="SubmitItem">Update</button>
+    </div>
+</div>
 
 @code {
-
+    [Parameter]
+    public string id { get; set; } = string.Empty;
+    public UserAccount user { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        user = await mongo.GetUserById(id);
+    }
+    public async void SubmitItem()
+    {
+        await mongo.UpdateUser(user);
+        nav.NavigateTo("/updateUser");
+    }
 }

@@ -81,7 +81,13 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
         //
         #region User
 
-        public async Task<UserAccount> GetUserById(string id)
+        public async Task<List<UserAccount>> GetAllUsers()
+        {
+            return await collectionUser.Find(_ => true).ToListAsync();
+        }
+
+
+		public async Task<UserAccount> GetUserById(string id)
         {
             return await collectionUser.Find(P=>P.Id == id).FirstAsync();
         }
