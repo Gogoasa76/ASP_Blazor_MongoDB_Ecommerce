@@ -1,0 +1,29 @@
+﻿@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
+@inject MongoDBWrapper mongo;
+@inject NavigationManager nav
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">@product.Id</div>
+        <div class="col-sm">@product.Name</div>
+        <div class="col-sm">@product.Price</div>
+        <button type="button" class="col-sm btn btn-primary" @onclick="UpdateProduct">Update</button>
+        <button type="button" class="col-sm btn btn-danger" @onclick="RemoveProduct">Remove</button>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public Product product { get; set; } = new();
+
+    public void UpdateProduct()
+    {
+        nav.NavigateTo($"/updateProduct/{product.Id}", true);
+    }
+    public async void RemoveProduct()
+    {
+        await mongo.DeleteProductByID(product.Id);
+        nav.NavigateTo("/updateProduct",true);
+
+    }
+}

@@ -139,7 +139,7 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
         }
         public async Task<Order> GetOrderstByUserId(string userID)
         {
-            return await collectionOrder.Find((P) => P.UserID == userID).FirstAsync();
+            return await collectionOrder.Find((P) => P.Id == userID).FirstAsync();
         }
         public async Task<Order> GetOrderstByDate(string date)
         {

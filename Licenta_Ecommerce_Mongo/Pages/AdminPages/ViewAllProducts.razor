@@ -1,0 +1,21 @@
+﻿@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
+@using Licenta_Ecommerce_Mongo.Shared.Components
+@inject MongoDBWrapper mongo;
+@page "/updateProduct"
+
+<p>View all products</p>
+
+@foreach(Product prod in products)
+{
+	<AdminCard product="prod"/>
+}
+
+@code {
+	public List<Product> products = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		products = await mongo.GetAll();
+	}
+}
