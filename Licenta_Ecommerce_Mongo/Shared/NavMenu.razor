@@ -1,27 +1,31 @@
-﻿
-<MudPaper Width="250px" Class="" Elevation="0">
-    <MudNavMenu Class="">
-        <MudButtonGroup>
-            <MudNavLink Href="/ " >Home</MudNavLink>
-            @*<AuthorizeView Roles="Admin">
-            <Authorized>*@
-                <MudNavGroup Class="" Title="Admin">
-                    <MudNavLink Href="addProduct">Add_Product</MudNavLink>
-                    <MudNavLink Href="updateProduct">Update_Product</MudNavLink>
-                    <MudNavLink Href="updateUser">Update_User</MudNavLink>
-                    <MudNavLink Href="card">Card</MudNavLink>
-                </MudNavGroup>
-            @*</Authorized>
-            </AuthorizeView>*@
-            <MudSpacer></MudSpacer>
-            @*<AuthorizeView Roles="Admin">
-            <Authorized>*@
-            <MudNavLink Href="order">Order</MudNavLink>
-            @*</Authorized>
-            </AuthorizeView>*@
-        </MudButtonGroup>
-    </MudNavMenu>
-</MudPaper>
-@code {
+﻿<MudNavMenu Class="mx-auto  teal darken-1">
+    <MudButtonGroup Class="mx-16">
+        <MudButton StartIcon="@Icons.Material.Filled.FormatListBulleted" Class="px-12 text-white" Href="/">Things</MudButton>
 
+@*            <AuthorizeView Roles="Admin,User">
+        <Authorized>*@
+        <MudButton Class="px-12 text-white" Href="order">Order</MudButton>
+        <MudButton Class="px-12 text-white" Href="checkOut">CheckOut</MudButton>
+@*            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="Admin">
+        <Authorized>*@
+        <MudNavGroup Style="@($"color:{Colors.Grey.Lighten5};")" Title="Admin" @onclick="OpenOverlay">
+            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="addProduct">Add_Product</MudNavLink>
+            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="updateProduct">Update_Product</MudNavLink>
+            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="updateUser">Update_User</MudNavLink>
+            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="card">Card</MudNavLink>
+        </MudNavGroup>
+        @*</Authorized>
+        </AuthorizeView>*@
+    </MudButtonGroup>
+</MudNavMenu>
+@code {
+    private bool isVisible;
+
+    public void OpenOverlay()
+    {
+        isVisible = true;
+        StateHasChanged();
+    }
 }
