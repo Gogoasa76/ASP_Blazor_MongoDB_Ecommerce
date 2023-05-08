@@ -3,6 +3,7 @@
 @using Licenta_Ecommerce_Mongo.Data;
 @inject IJSRuntime js
 @inject MongoDBWrapper mongo
+@using Licenta_Ecommerce_Mongo.Shared.Components
 
 
 <AuthorizeView>
@@ -14,10 +15,16 @@
         <h1>Hello, Guest!</h1>
     </NotAuthorized>
 </AuthorizeView>
+@foreach(Product product in products)
+{
+    <Card product="product"/>
+}
+
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
+    public List<Product> products { get; set; } = new();
     private async Task DisplayGreetingAlert()
     {
         var authState = await authenticationState;
@@ -27,5 +34,9 @@
     public async void AddProduct()
     {
         await mongo.AddItem(new("nume","description","image",new (),1,1,1));
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        products = await mongo.GetAll();
     }
 }

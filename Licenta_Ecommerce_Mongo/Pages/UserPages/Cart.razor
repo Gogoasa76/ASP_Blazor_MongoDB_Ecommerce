@@ -1,6 +1,42 @@
 ﻿@page "/cart"
-<h3>Cart</h3>
-
+@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject MongoDBWrapper mongo;
+@using Licenta_Ecommerce_Mongo.Shared.Components
+<AuthorizeView>
+    <NotAuthorized>
+        <h1 class="text-center">Please login to use the cart</h1>
+    </NotAuthorized>
+    <Authorized>
+		@if (products.Count == 0)
+		{
+			<h1 class="text-center">The Cart is empty</h1>
+		}
+		else
+		{
+			foreach(Product product in products)
+			{
+			<CartCard product="product"/>
+			}
+		}
+	</Authorized>
+</AuthorizeView>
 @code {
-
+	public List<Product> products { get; set; } = new();
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		string userId = user.Identity.Name;
+		try
+		{
+			products = await mongo.GetCartByUserId(userId);
+			Console.WriteLine(products.Count);
+		}
+		catch (Exception)
+		{
+			//ignore
+		}
+	}
 }
