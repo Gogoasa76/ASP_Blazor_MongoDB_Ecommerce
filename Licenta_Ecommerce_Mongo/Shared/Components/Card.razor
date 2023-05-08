@@ -33,8 +33,6 @@
 @code{
     [Parameter]
     public Product product { get; set; } = new Product();
-    //[CascadingParameter]
-    //private Task<AuthenticationState> authenticationState { get; set; }
     public void Procent()
     {
         float Procent = ((float)product.Price/ (float)product.Discount) * 100;

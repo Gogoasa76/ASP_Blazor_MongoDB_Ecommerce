@@ -1,5 +1,6 @@
 ﻿using Licenta_Ecommerce_Mongo.Authentication;
 using Licenta_Ecommerce_Mongo.Data;
+using Licenta_Ecommerce_Mongo.Pages.UserPages;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -115,6 +116,21 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
 
             UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.ProductCart, cart);
 
+            await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
+        }
+
+        public async Task<List<Product>> GetCartByUserId(string id)
+        {
+            List<string> productsIDs = (await collectionUser.FindAsync(P => P.Id == id)).First().ProductCart;
+			return  await collectionProduct.Find(P => productsIDs.Contains(P.Id)).ToListAsync();
+			
+		}
+
+        public async void RemoveProductFromUserCart(string userId,string productId)
+        {
+            UserAccount user = (await collectionUser.FindAsync(P => P.Id == userId)).First();
+            user.ProductCart.Remove(productId);
+            UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.ProductCart, user.ProductCart);
             await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
         }
 
