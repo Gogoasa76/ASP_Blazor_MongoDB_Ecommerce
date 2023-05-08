@@ -119,6 +119,22 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
             await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
         }
 
+        public async Task AddItemToFavorites(string userId, string productID)
+        {
+            UserAccount user = await GetUserById(userId);
+            List<string> favorites = user.Favorites;
+            favorites.Add(productID);
+
+            UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.Favorites, favorites);
+
+            await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
+        }
+        public async Task<List<Product>> GetFavoritesByUserId(string id)
+        {
+            List<string> productsIDs = (await collectionUser.FindAsync(P => P.Id == id)).First().Favorites;
+            return await collectionProduct.Find(P => productsIDs.Contains(P.Id)).ToListAsync();
+
+        }
         public async Task<List<Product>> GetCartByUserId(string id)
         {
             List<string> productsIDs = (await collectionUser.FindAsync(P => P.Id == id)).First().ProductCart;
@@ -131,6 +147,14 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
             UserAccount user = (await collectionUser.FindAsync(P => P.Id == userId)).First();
             user.ProductCart.Remove(productId);
             UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.ProductCart, user.ProductCart);
+            await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
+        }
+
+        public async void RemoveProductFromUserFavorites(string userId, string productId)
+        {
+            UserAccount user = (await collectionUser.FindAsync(P => P.Id == userId)).First();
+            user.Favorites.Remove(productId);
+            UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.Favorites, user.Favorites);
             await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
         }
 

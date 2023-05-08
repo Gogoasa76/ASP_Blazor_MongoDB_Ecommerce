@@ -6,7 +6,7 @@
 @inject MongoDBWrapper mongo;
 
 <MudCard Class="border-solid border-2 mud-border-dark " Style="height: 400px; width: 300px" Outlined="true">
-    <MudIconButton Class="position-absolute" Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Accent4};")" Href="favorites" />
+    <MudIconButton Class="position-absolute" Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Accent4};")" @onclick="AddItemToFavorites"/>
     <MudCardHeader Class="justify-content-center">
         <MudImage Class="" Src="@product.ImageBase64" Height="200" Width="290"></MudImage>
     </MudCardHeader>
@@ -38,5 +38,18 @@
             return;
         }
         await mongo.AddItemToCart(userId, product.Id);
+    }
+    public async void AddItemToFavorites()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        string userId = user.Identity.Name;
+
+        if (userId == null)
+        {
+            await js.InvokeVoidAsync("alert", "Login to add to favorites");
+            return;
+        }
+        await mongo.AddItemToFavorites(userId, product.Id);
     }
 }
