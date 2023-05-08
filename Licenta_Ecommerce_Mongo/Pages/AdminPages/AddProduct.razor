@@ -2,7 +2,7 @@
 @using Licenta_Ecommerce_Mongo.DBConnections;
 @using Licenta_Ecommerce_Mongo.Data;
 @inject MongoDBWrapper mongo
-
+@inject NavigationManager nav;
 <h3>AddProduct</h3>
 <div class="row">
     <div class="form-group mt-2">
@@ -48,6 +48,7 @@
     {
         product.Tags = tagsAsString.ToLower().Split(",").ToList();
         await mongo.AddItem(product);
+        nav.NavigateTo("/addProduct",true);
     }
 
     async Task OnChange(InputFileChangeEventArgs e)
