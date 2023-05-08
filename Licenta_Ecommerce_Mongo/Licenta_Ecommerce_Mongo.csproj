@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\50193312_303.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     <PackageReference Include="MudBlazor" Version="6.2.3" />
   </ItemGroup>

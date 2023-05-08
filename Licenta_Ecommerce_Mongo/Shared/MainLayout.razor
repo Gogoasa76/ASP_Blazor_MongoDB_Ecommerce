@@ -13,7 +13,8 @@
     <MudMainContent>
         <MudAppBar Elevation="1" Class=" grey lighten-5">
             <MudText Typo="Typo.h5" Class="ml-16" Style="@($"color:{Colors.Grey.Lighten5};")"><a href="/">Magazin</a></MudText>
-            <MudTextField Class="ml-4" @bind-Value="TextValue" Label="Quick search" AdornmentColor="Color.Primary" Variant="Variant.Outlined" Margin="Margin.Dense" Style="width: 300px" />
+            <MudTextField Class="ml-4" @bind-Value="TextValue" Label="Quick search" AdornmentColor="Color.Primary" Variant="Variant.Outlined" Margin="Margin.Dense" Style="width: 300px"/>
+            <MudButton @onclick="ceva">ss</MudButton>
             <MudSpacer />
             <AuthorizeView>
                 <Authorized>
@@ -44,6 +45,10 @@
         navManager.NavigateTo("/", true);
     }
     public string TextValue { get; set; } = string.Empty;
+    public async Task ceva()
+    {
+        navManager.NavigateTo($"/itemByTag/{TextValue}", true);
+    }
 }
 
 @*        <MudNavMenu Class="py-4 grey lighten-5 align-content-center">
