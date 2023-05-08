@@ -6,19 +6,17 @@
 @using Licenta_Ecommerce_Mongo.Shared.Components
 
 
-<AuthorizeView>
-    <Authorized>
-        <h1>Hello, @context.User.Identity.Name</h1>
-        <button @onclick=AddProduct>Add</button>
-    </Authorized>
-    <NotAuthorized>
-        <h1>Hello, Guest!</h1>
-    </NotAuthorized>
-</AuthorizeView>
-@foreach(Product product in products)
-{
-    <Card product="product"/>
-}
+<MudLayout Class="mt-10">
+    <MudGrid Spacing="4" Justify="Justify.Center">
+        @foreach (Product product in products)
+        {
+            <MudItem>
+                <Card product="product" />
+            </MudItem>
+        }
+    </MudGrid>
+</MudLayout>
+
 
 @code {
     [CascadingParameter]
