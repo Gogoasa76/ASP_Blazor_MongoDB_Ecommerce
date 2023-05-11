@@ -1,4 +1,4 @@
-﻿@page "/itemByTag/{tag}"
+﻿@page "/itemByTag/{keyword}"
 @using Licenta_Ecommerce_Mongo.DBConnections;
 @using Licenta_Ecommerce_Mongo.Data;
 @using Licenta_Ecommerce_Mongo.Shared.Components
@@ -11,17 +11,17 @@
             <MudItem>
                 <Card product="product" />
             </MudItem>
-        }
+        } 
     </MudGrid>
 </MudLayout>
 
 
 @code {
     [Parameter]
-    public string tag { get; set; } = "";
+    public string keyword { get; set; } = "";
     public List<Product> products { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
-        products = await mongo.GetProductsWithTag(tag);
+        products = await mongo.GetAllProductsSearch(keyword);
     }
 }

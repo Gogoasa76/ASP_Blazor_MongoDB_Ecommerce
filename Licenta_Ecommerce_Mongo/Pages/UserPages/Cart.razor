@@ -4,39 +4,72 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject MongoDBWrapper mongo;
 @using Licenta_Ecommerce_Mongo.Shared.Components
-<AuthorizeView>
-    <NotAuthorized>
-        <h1 class="text-center">Please login to use the cart</h1>
-    </NotAuthorized>
-    <Authorized>
-		@if (products.Count == 0)
-		{
-			<h1 class="text-center">The Cart is empty</h1>
-		}
-		else
-		{
-			foreach(Product product in products)
-			{
-			<CartCard product="product"/>
-			}
-		}
-	</Authorized>
-</AuthorizeView>
+
+<MudLayout Class="d-flex justify-center flex-grow-1 gap-4">
+	<AuthorizeView>
+		<NotAuthorized>
+			<h3 class="text-center">Please login to use the cart</h3>
+		</NotAuthorized>
+		<Authorized>
+			<MudList >
+				<MudPaper>
+					@if (products.Count == 0)
+					{
+						<h1 class="text-center">The Cart is empty</h1>
+					}
+					else
+					{
+
+						foreach(Product product in products)
+						{
+							<MudItem>
+								<CartCard product="product"/>
+							</MudItem>
+						}
+					}
+				</MudPaper>
+
+				<MudText > @total Lei</MudText>
+
+				<MudButton @onclick="SendOrder">Send order</MudButton>
+			</MudList>
+		</Authorized>
+	</AuthorizeView>
+</MudLayout>
 @code {
 	public List<Product> products { get; set; } = new();
+	public int total { get; set; } = 0;
+	string userId = "";
 	protected override async Task OnInitializedAsync()
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		string userId = user.Identity.Name;
+		userId = user.Identity!.Name!;
 		try
 		{
 			products = await mongo.GetCartByUserId(userId);
-			Console.WriteLine(products.Count);
 		}
 		catch (Exception)
 		{
-			//ignore
+			//nu foarte important
 		}
+		CalculateTotal();
+		
+	}
+	public void SendOrder()
+	{
+
+	}
+
+	public async void CalculateTotal()
+	{
+		foreach(Product product in products)
+		{
+			int quantity = await mongo.GetQuantityForProduct(userId, product.Id);
+			total += product.Price * quantity;
+			Console.WriteLine(total);
+			
+		}
+		await InvokeAsync(StateHasChanged);
 	}
 }

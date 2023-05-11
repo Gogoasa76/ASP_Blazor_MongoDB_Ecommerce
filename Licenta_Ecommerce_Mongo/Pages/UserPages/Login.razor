@@ -29,11 +29,11 @@
 </div>
 
 @code {
-    string username = "admin";
-    string password = "12";
+    //string username = "admin";
+    //string password = "1234";
 
-    //string username = string.Empty;
-    //string password = string.Empty;
+    string username = string.Empty;
+    string password = string.Empty;
     private async Task Authenticate()
     {
         UserAccount user;
@@ -48,10 +48,7 @@
         {
             await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
             return;
-        }
-
-        
-        
+        }  
         var customAuthStateProvider = (CustomAuthStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession
             {

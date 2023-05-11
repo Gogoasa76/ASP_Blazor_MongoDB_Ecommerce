@@ -1,29 +1,48 @@
-﻿<MudNavMenu Class="mx-auto  teal darken-1">
+﻿@inject NavigationManager navManager
+<MudNavMenu Class="mx-auto  teal darken-1">
     <MudButtonGroup Class="mx-16">
-        <MudButton StartIcon="@Icons.Material.Filled.FormatListBulleted" Class="px-12 text-white" Href="/">Things</MudButton>
+        <MudMenu StartIcon="@Icons.Material.Filled.FormatListBulleted" Class="pl-6 pr-3 color text-white" Label="Things" Color="Color.Primary">
+            <MudMenuItem Class="" Style="width: 150px" @bind-value="tag1" @onclick="Search">
+                <MudText >ceva</MudText>
+            </MudMenuItem>
+            <MudMenuItem Class="" Style="width: 150px" @bind-value="tag1" @onclick="Search">
+                <MudText>ceva</MudText>
+            </MudMenuItem>            
+            <MudMenuItem Class="" Style="width: 150px" @bind-value="tag1" @onclick="Search">
+                <MudText >ceva</MudText>
+            </MudMenuItem>
+            <MudMenuItem Class="" Style="width: 150px" @bind-value="tag1" @onclick="Search">
+                <MudText>ceva</MudText>
+            </MudMenuItem>
+            <MudMenuItem Class="" Style="width: 150px" @bind-value="tag1" @onclick="Search">
+                <MudText>ceva</MudText>
+            </MudMenuItem>
+            <MudMenuItem Class="" Style="width: 150px" @bind-value="tag1" @onclick="Search">
+                <MudText >ceva</MudText>
+            </MudMenuItem>
+        </MudMenu>
 
-@*            <AuthorizeView Roles="Admin,User">
-        <Authorized>*@
-        <MudButton Class="px-12 text-white" Href="order">Order</MudButton>
-        <MudButton Class="px-12 text-white" Href="checkOut">CheckOut</MudButton>
-        <MudButton Class="px-12 text-white" Href="ceva">Ceva</MudButton>
-@*            </Authorized>
-        </AuthorizeView>
         <AuthorizeView Roles="Admin">
-        <Authorized>*@
-        <MudNavGroup Style="@($"color:{Colors.Grey.Lighten5};")" Title="Admin" @onclick="OpenOverlay">
-            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="addProduct">Add_Product</MudNavLink>
-            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="updateProduct">Update_Product</MudNavLink>
-            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="updateUser">Update_User</MudNavLink>
-            <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="card">Card</MudNavLink>
-        </MudNavGroup>
-        @*</Authorized>
-        </AuthorizeView>*@
+            <Authorized>
+                <MudButton Class="px-12 text-white" Href="checkOut">CheckOut</MudButton>
+                <MudNavGroup Style="@($"color:{Colors.Grey.Lighten5};")" Title="Admin" @onclick="OpenOverlay">
+                    <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="addProduct">Add_Product</MudNavLink>
+                    <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="updateProduct">Update_Product</MudNavLink>
+                    <MudNavLink Style="@($"color:{Colors.Grey.Lighten5};")" Href="updateUser">Update_User</MudNavLink>
+                </MudNavGroup>
+            </Authorized>
+        </AuthorizeView>
     </MudButtonGroup>
 </MudNavMenu>
 @code {
     private bool isVisible;
+    public string tag1 = "masina";
 
+
+    public async Task Search()
+    {
+        navManager.NavigateTo($"/itemByTag/{tag1}", true);
+    }
     public void OpenOverlay()
     {
         isVisible = true;

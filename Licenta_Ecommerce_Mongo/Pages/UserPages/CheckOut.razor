@@ -3,6 +3,7 @@
 @using System.ComponentModel.DataAnnotations;
 @using Licenta_Ecommerce_Mongo.DBConnections;
 @using Licenta_Ecommerce_Mongo.Data;
+@using Licenta_Ecommerce_Mongo.Shared.Components
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject MongoDBWrapper mongo;
@@ -35,19 +36,31 @@
                 </MudPaper>
             </MudPaper>
         </MudItem>
-        <MudItem xs="4">
+        <MudItem xs="6">
             <MudPaper Style="width: 100%">
-                <MudForm Class="row g-6 mx-auto" Style="width:90%" @bind-IsValid="@success" @bind-Errors="@errors" ReadOnly="false">
-                    <MudText Class="col-sm-6" Typo="Typo.h6">Your cart</MudText>
+                <MudForm Class="row g-6 mx-auto" Style="width:95%" @bind-IsValid="@success" @bind-Errors="@errors" ReadOnly="false">
+                    <MudText Class="col-6" Typo="Typo.h6">Your cart</MudText>
                     <MudGrid>
-                        @foreach (Product product in products)
-                        {
-                            <MudItem>
-                                <div class="container">
-                                    <MudText Typo="Typo.h5">@product.Name</MudText>
-                                </div>
-                            </MudItem>
-                        }
+                        <MudPaper>
+                            @if (products.Count == 0)
+                            {
+                                <h1 class="text-center">The Cart is empty</h1>
+                            }
+                            else
+                            {
+
+                                foreach (Product product in products)
+                                {
+                                    <MudItem>
+                                        <CartCard product="product" />
+                                    </MudItem>
+                                }
+                            }
+                        </MudPaper>
+
+                        <MudText> @total Lei</MudText>
+
+                        <MudButton @onclick="SendOrder">Send order</MudButton>
                     </MudGrid>
                 </MudForm>   
             </MudPaper>
@@ -68,18 +81,38 @@
     public string SelectedOption { get; set; } = string.Empty;
 
     public List<Product> products { get; set; } = new();
+    public int total { get; set; } = 0;
+    string userId = "";
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        string userId = user.Identity.Name;
+        userId = user.Identity!.Name!;
         try
         {
             products = await mongo.GetCartByUserId(userId);
         }
         catch (Exception)
         {
-            //ignore
+            //nu foarte important
         }
+        CalculateTotal();
+
+    }
+    public void SendOrder()
+    {
+
+    }
+
+    public async void CalculateTotal()
+    {
+        foreach (Product product in products)
+        {
+            int quantity = await mongo.GetQuantityForProduct(userId, product.Id);
+            total += product.Price * quantity;
+            Console.WriteLine(total);
+
+        }
+        await InvokeAsync(StateHasChanged);
     }
 }

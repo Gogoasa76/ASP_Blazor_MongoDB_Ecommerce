@@ -1,8 +1,21 @@
-﻿@page "/productDetail"
+﻿@page "/productDetail/{id}"
+@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
 
+@inject MongoDBWrapper mongo;
+@inject NavigationManager nav;
 
 <h3>ProductDetails</h3>
 
 @code {
+    [Parameter]
+    public string id { get; set; } = string.Empty;
 
+    public Product product { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await mongo.GetProductById(id);
+    }
 }

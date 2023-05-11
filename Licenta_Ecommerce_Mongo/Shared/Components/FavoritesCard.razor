@@ -6,24 +6,37 @@
 @inject MongoDBWrapper mongo;
 @inject NavigationManager nav
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm">@product.Id</div>
-        <div class="col-sm">@product.Name</div>
-        <div class="col-sm">@product.Price</div>
-        <button type="button" class="col-sm btn btn-danger" @onclick="RemoveFromUserCart">Remove</button>
-    </div>
-</div>
-
-
-
-
+<MudCard Class="border-solid border-2 mud-border-dark " Style="height: 450px; width: 300px" Outlined="true">
+    <MudCardHeader Class="justify-content-center">
+        <MudImage Class="" Src="@product.ImageBase64" Height="200" Width="290" />
+    </MudCardHeader>
+    <MudCardContent Class="justify-content-center">
+        <MudText Typo="Typo.h6">@product.Name</MudText>
+        <MudDivider />
+        <MudText Typo="Typo.h6">@product.Price lei Discount @product.Discount% </MudText>
+    </MudCardContent>
+    <MudButton Class="mt-6 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Teal.Darken1};")" @onclick="AddItemToCart">Add to cart</MudButton>
+    <MudButton Class="mt-2 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Red.Darken1};")" @onclick="RemoveFromUserFavorite">Remove </MudButton>
+</MudCard>
 
 @code {
     [Parameter]
     public Product product { get; set; } = new();
 
-    public async void RemoveFromUserCart()
+    public async void AddItemToCart()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        string userId = user.Identity.Name;
+
+        if (userId == null)
+        {
+            await js.InvokeVoidAsync("alert", "Login to add to cart");
+            return;
+        }
+        await mongo.AddItemToCart(userId, product.Id);
+    }
+    public async void RemoveFromUserFavorite()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;

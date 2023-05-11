@@ -5,31 +5,38 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject MongoDBWrapper mongo;
 @using Licenta_Ecommerce_Mongo.Shared.Components
-<AuthorizeView>
-	<NotAuthorized>
-		<h1 class="text-center">Please login to use the cart</h1>
-	</NotAuthorized>
-	<Authorized>
-		@if (products.Count == 0)
-		{
-			<h1 class="text-center">The Cart is empty</h1>
-		}
-		else
-		{
-			foreach (Product product in products)
-			{
-				<FavoritesCard product="product" />
-			}
-		}
-	</Authorized>
-</AuthorizeView>
+<MudLayout Class="mt-10">
+	<AuthorizeView>
+		<NotAuthorized>
+			<h3 class="text-center">Please login to use the cart</h3>
+		</NotAuthorized>
+		<Authorized>
+			<MudGrid Spacing="4" Justify="Justify.Center">
+				@if (products.Count == 0)
+				{
+					<h3 class="text-center">The Cart is empty</h3>
+				}
+				else
+				{
+					foreach (Product product in products)
+					{
+
+						<MudItem>
+							<FavoritesCard product="product" />
+						</MudItem>
+					}
+				}
+			</MudGrid>
+		</Authorized>
+	</AuthorizeView>
+</MudLayout>
 @code {
 	public List<Product> products { get; set; } = new();
 	protected override async Task OnInitializedAsync()
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		string userId = user.Identity.Name;
+		string userId = user.Identity!.Name!;
 		try
 		{
 			products = await mongo.GetFavoritesByUserId(userId);

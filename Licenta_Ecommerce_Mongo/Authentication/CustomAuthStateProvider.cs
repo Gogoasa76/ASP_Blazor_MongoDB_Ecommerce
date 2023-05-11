@@ -13,7 +13,6 @@ namespace Licenta_Ecommerce_Mongo.Authentication
         {
             _sessionStorage = sessionStorage;
         }
-
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             try
@@ -53,10 +52,7 @@ namespace Licenta_Ecommerce_Mongo.Authentication
                 await _sessionStorage.DeleteAsync("UserSession");
                 claimsPrincipal = _anonymous;
             }
-
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
-
         }
-
     }
 }

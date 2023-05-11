@@ -20,22 +20,9 @@
         <input class="form-control" placeholder="Price" @bind="product.Price" type="number" />
     </div>
     <div class="form-group mt-2">
-        <label class="form-label" for="title">Discount</label>
-        <input class="form-control" placeholder="Discount" @bind="product.Discount" type="number" />
-    </div>
-    <div class="form-group mt-2">
         <label class="form-label" for="title">Quantity</label>
         <input class="form-control" placeholder="Quantity" @bind="product.Quantity" type="number" />
     </div>
-    @*<div class="form-group mt-2">
-        <label class="form-label" for="title">Tags</label>
-        <input class="form-control" placeholder="Tags" @bind="tagsAsString" type="text" />
-    </div>
-    <div class="form-group mt-2">
-        <label class="form-label" for="title">
-            <InputFile OnChange="@OnChange" multiple></InputFile>
-        </label>
-    </div>*@
     <div class="form-group mt-3">
         <button type="button" class="col-sm btn btn-primary" @onclick="SubmitItem">Update</button>
     </div>

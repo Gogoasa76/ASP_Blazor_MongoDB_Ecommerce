@@ -1,7 +1,5 @@
 ﻿using Licenta_Ecommerce_Mongo.Authentication;
 using Licenta_Ecommerce_Mongo.Data;
-using Licenta_Ecommerce_Mongo.Pages.UserPages;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Licenta_Ecommerce_Mongo.DBConnections
@@ -14,21 +12,18 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
 
         private readonly string collectionProductName = "Products";
         private readonly string collectionUserName = "Users";
-        private readonly string collectionOrderName = "Orders";
 
         private readonly MongoClient client;
         private readonly IMongoDatabase db;
 
         private readonly IMongoCollection<Product> collectionProduct;
         private readonly IMongoCollection<UserAccount> collectionUser;
-        private readonly IMongoCollection<Order> collectionOrder;
         public MongoDBWrapper()
         {
             client = new MongoClient(connectionString);
             db = client.GetDatabase(dbName);
             collectionProduct = db.GetCollection<Product>(collectionProductName);
             collectionUser = db.GetCollection<UserAccount>(collectionUserName);
-            collectionOrder = db.GetCollection<Order>(collectionOrderName);
         }
 
         //
@@ -41,21 +36,9 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
         {
             return await collectionProduct.Find((P) => P.Id == id).FirstAsync();
         }
-        public async Task<List<Product>> GetAllProductsWithName(string name)
+        public async Task<List<Product>> GetAllProductsSearch(string value)
         {
-            return await collectionProduct.Find((P)=>P.Name.Contains(name)).ToListAsync();
-        }
-        public async Task<List<Product>> GetDiscountedProducts()
-        {
-            return await collectionProduct.Find((P)=>P.Discount>0).ToListAsync();
-        }
-        public async Task<List<Product>> GetByPrice(int minPrice, int maxPrice)
-        {
-            return await collectionProduct.Find((P)=>P.Price>minPrice && P.Price<maxPrice).ToListAsync();
-        }
-        public async Task<List<Product>> GetProductsWithTag(string tag)
-        {
-            return await collectionProduct.Find((P) => P.Tags.Contains(tag)).ToListAsync();
+            return await collectionProduct.Find((P)=>P.Name.Contains(value)||P.Tags.Contains(value)).ToListAsync();
         }
         public async Task AddItem(Product product)
         {
@@ -77,17 +60,24 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
                 .Set(P => P.Quantity, product.Quantity);
             await collectionProduct.UpdateOneAsync(P => P.Id == product.Id, definition);
         }
-        #endregion
+		public async Task UpdateProductQuantiry(string userid,string productId,int quantity)
+		{
+			UserAccount account = await GetUserById(userid);
+            Dictionary<string, int> cart = account.ProductCart;
+            cart[productId] = quantity;
+            Console.WriteLine(cart[productId]);
+            UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.ProductCart, cart);
+            await collectionUser.UpdateOneAsync(P => P.Id == userid, definition);
+        }
+		#endregion
 
-        //
-        #region User
+		//
+		#region User
 
-        public async Task<List<UserAccount>> GetAllUsers()
+		public async Task<List<UserAccount>> GetAllUsers()
         {
             return await collectionUser.Find(_ => true).ToListAsync();
         }
-
-
 		public async Task<UserAccount> GetUserById(string id)
         {
             return await collectionUser.Find(P=>P.Id == id).FirstAsync();
@@ -111,18 +101,20 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
         }
         public async Task AddItemToCart(string userId,string productID) {
             UserAccount user = await GetUserById(userId);
-            List<string> cart = user.ProductCart;
-            cart.Add(productID);
+            Dictionary<string,int> cart = user.ProductCart;
+            if(cart.ContainsKey(productID)) { return; }
+            cart.Add(productID,1);
 
             UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.ProductCart, cart);
-
             await collectionUser.UpdateOneAsync(P => P.Id == userId, definition);
+
         }
 
         public async Task AddItemToFavorites(string userId, string productID)
         {
             UserAccount user = await GetUserById(userId);
             List<string> favorites = user.Favorites;
+            if (favorites.Contains(productID)) { return; }
             favorites.Add(productID);
 
             UpdateDefinition<UserAccount> definition = Builders<UserAccount>.Update.Set(P => P.Favorites, favorites);
@@ -137,10 +129,15 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
         }
         public async Task<List<Product>> GetCartByUserId(string id)
         {
-            List<string> productsIDs = (await collectionUser.FindAsync(P => P.Id == id)).First().ProductCart;
-			return  await collectionProduct.Find(P => productsIDs.Contains(P.Id)).ToListAsync();
-			
+            Dictionary<string,int> productsIDs = (await collectionUser.FindAsync(P => P.Id == id)).First().ProductCart;
+            List<string> productsids = productsIDs.Keys.ToList();
+            return  await collectionProduct.Find(P => productsids.Contains(P.Id)).ToListAsync();
 		}
+
+        public async Task<int> GetQuantityForProduct(string userId,string productId)
+        {
+            return (await collectionUser.FindAsync(P => P.Id == userId)).First().ProductCart[productId];
+        }
 
         public async void RemoveProductFromUserCart(string userId,string productId)
         {
@@ -184,22 +181,6 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
 
                 await AddUser(admin);
             }
-        }
-        #endregion
-
-        //
-        #region Order
-        public async Task<List<Order>> GetAllOrders()
-        {
-            return await collectionOrder.Find(_ => true).ToListAsync();
-        }
-        public async Task<Order> GetOrderstByUserId(string userID)
-        {
-            return await collectionOrder.Find((P) => P.Id == userID).FirstAsync();
-        }
-        public async Task<Order> GetOrderstByDate(string date)
-        {
-            return await collectionOrder.Find((P) => P.Date == date).FirstAsync();
         }
         #endregion
     }

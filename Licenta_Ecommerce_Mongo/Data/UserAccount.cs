@@ -11,7 +11,7 @@ namespace Licenta_Ecommerce_Mongo.Data
         public string Password { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public List<string> ProductCart { get; set; }= new List<string>();
-        public List<string> Favorites { get; set; }= new List<string>();
+        public Dictionary<string,int> ProductCart { get; set; }= new ();
+        public List<string> Favorites { get; set; }= new ();
     }
 }
