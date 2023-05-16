@@ -39,28 +39,27 @@
         <MudItem xs="6">
             <MudPaper Style="width: 100%">
                 <MudForm Class="row g-6 mx-auto" Style="width:95%" @bind-IsValid="@success" @bind-Errors="@errors" ReadOnly="false">
-                    <MudText Class="col-6" Typo="Typo.h6">Your cart</MudText>
+                    <MudText Class="col-6 mb-4 mt-2" Typo="Typo.h6">Your cart</MudText>
                     <MudGrid>
                         <MudPaper>
                             @if (products.Count == 0)
                             {
-                                <h1 class="text-center">The Cart is empty</h1>
+                                <MudItem>
+                                    <MudText Typo="Typo.h5">The Cart is empty</MudText>
+                                </MudItem>
+
                             }
                             else
                             {
-
                                 foreach (Product product in products)
                                 {
                                     <MudItem>
-                                        <CartCard product="product" />
+                                        <CardCheckout product="product" />
                                     </MudItem>
                                 }
                             }
                         </MudPaper>
-
-                        <MudText> @total Lei</MudText>
-
-                        <MudButton @onclick="SendOrder">Send order</MudButton>
+                        <MudText Class="mt-3 mb-4 " Style="@($"color:{Colors.Shades.Black}")" Typo="Typo.h5">Total: @total Lei</MudText>
                     </MudGrid>
                 </MudForm>   
             </MudPaper>
@@ -97,21 +96,17 @@
             //nu foarte important
         }
         CalculateTotal();
-
     }
     public void SendOrder()
     {
-
+        //order 
     }
-
     public async void CalculateTotal()
     {
         foreach (Product product in products)
         {
             int quantity = await mongo.GetQuantityForProduct(userId, product.Id);
             total += product.Price * quantity;
-            Console.WriteLine(total);
-
         }
         await InvokeAsync(StateHasChanged);
     }

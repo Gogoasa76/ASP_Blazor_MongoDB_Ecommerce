@@ -3,15 +3,15 @@
 @inject MongoDBWrapper mongo;
 @inject NavigationManager nav
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm">@product.Id</div>
-        <div class="col-sm">@product.Name</div>
-        <div class="col-sm">@product.Price</div>
-        <button type="button" class="col-sm btn btn-primary" @onclick="UpdateProduct">Update</button>
-        <button type="button" class="col-sm btn btn-danger" @onclick="RemoveProduct">Remove</button>
-    </div>
-</div>
+<MudContainer Class="my-6">
+    <MudGrid Class="border">
+        <MudItem xs="3" sm="2">ID: @product.Id</MudItem>
+        <MudItem xs="3" sm="6">Product name: @product.Name</MudItem>
+        <MudItem xs="3" sm="2">Price: @product.Price</MudItem>
+        <MudButton @onclick="UpdateProduct" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Update</MudButton>
+        <MudButton @onclick="RemoveProduct" Class="my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Red.Default};")">Remove</MudButton>
+    </MudGrid>
+</MudContainer>
 @code {
     [Parameter]
     public Product product { get; set; } = new();
@@ -24,6 +24,5 @@
     {
         await mongo.DeleteProductByID(product.Id);
         nav.NavigateTo("/updateProduct",true);
-
     }
 }

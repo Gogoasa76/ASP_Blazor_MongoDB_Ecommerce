@@ -4,25 +4,24 @@
 @inject NavigationManager nav;
 @inject MongoDBWrapper mongo;
 
-<div class="row">
-    <div class="form-group mt-2">
-        <label class="form-label" for="title">Name</label>
-        <input class="form-control" placeholder="Place holder" @bind="user.UserName" type="text" />
-    </div>
-    <div class="form-group mt-2">
-        <label class="form-label" for="title">Email</label>
-        <input class="form-control" placeholder="Place holder" @bind="user.Email" type="text" />
-    </div>
-    
-    <div class="form-group mt-2">
-        <label class="form-label" for="title">Role</label>
-        <input class="form-control" placeholder="Place holder" @bind="user.Role" type="text" />
-    </div>
-    <div class="form-group mt-3">
-        <button type="button" class="col-sm btn btn-primary" @onclick="SubmitItem">Update</button>
-    </div>
-</div>
-
+<MudContainer>
+    <MudList>
+        <MudItem Class="my-4">
+            <MudText>Username</MudText>
+            <input class="form-control" @bind="user.UserName" type="text" />
+        </MudItem>
+        <MudItem Class="my-4">
+            <MudText>Email</MudText>
+            <input class="form-control" @bind="user.Email" type="text" />
+        </MudItem>
+        <MudItem Class="my-4">
+            <MudText>Role</MudText>
+            <MudText Color="Color.Error">Role: User / Admin</MudText>
+            <input class="form-control" @bind="user.Role" type="text" />
+        </MudItem>
+        <MudButton @onclick="SubmitItem" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Add Product</MudButton>
+    </MudList>
+</MudContainer>
 @code {
     [Parameter]
     public string id { get; set; } = string.Empty;

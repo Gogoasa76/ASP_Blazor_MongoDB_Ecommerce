@@ -11,8 +11,8 @@
 
 <MudLayout>
     <MudMainContent>
-        <MudAppBar Elevation="1" Class=" grey lighten-5">
-            <MudText Typo="Typo.h5" Class="ml-16" Style="@($"color:{Colors.Grey.Lighten5};")"><a href="/">Magazin</a></MudText>
+        <MudAppBar Elevation="1" Class=" shades white">
+            <MudText Typo="Typo.h5" Class="ml-16" Style="@($"color:{Colors.Shades.White};")"><a href="/">Magazin</a></MudText>
             <MudGrid Justify="Justify.FlexStart">
                 <MudItem>
                     <MudTextField Class="ml-4" @bind-Value="TextValue" Label="Search by tag" AdornmentColor="Color.Primary" Variant="Variant.Outlined" Margin="Margin.Dense" Style="width: 300px" />
@@ -23,13 +23,13 @@
             </MudGrid>
              <AuthorizeView>
                 <Authorized>
-                    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Accent4};")" Class="mx-1" Href="favorites" />
+                    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" Class="mx-1" Href="favorites" />
                     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" Style="@($"color:{Colors.Shades.Black};")" Class="mx-1 mr-5" Href="cart" />
 
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Logout" Class="mr-16" Href="javascript:void(0)">Logout</MudButton>
                 </Authorized>
                 <NotAuthorized>
-                    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Accent4};")" Class="mx-1" Href="favorites" />
+                    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" Class="mx-1" Href="favorites" />
                     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" Style="@($"color:{Colors.Shades.Black};")" Class="mx-1 mr-5" Href="cart" />
 
                     <MudButton Variant="Variant.Filled" Color="Color.Info" Class="mx-3" Href="/login">LogIn</MudButton>

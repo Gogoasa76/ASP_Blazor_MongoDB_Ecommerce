@@ -6,17 +6,17 @@
 @inject MongoDBWrapper mongo;
 @inject NavigationManager nav
 
-<MudCard Class="border-solid border-2 mud-border-dark " Style="height: 450px; width: 300px" Outlined="true">
+<MudCard Class="border-solid border-2 mud-border " Style="height: 450px; width: 300px" Outlined="true">
     <MudCardHeader Class="justify-content-center">
-        <MudImage Class="" Src="@product.ImageBase64" Height="200" Width="290" />
+        <MudImage Src="@product.ImageBase64" Height="200" Width="290" />
     </MudCardHeader>
     <MudCardContent Class="justify-content-center">
         <MudText Typo="Typo.h6">@product.Name</MudText>
         <MudDivider />
-        <MudText Typo="Typo.h6">@product.Price lei Discount @product.Discount% </MudText>
+        <MudText Typo="Typo.h6">@product.Price lei </MudText>
     </MudCardContent>
-    <MudButton Class="mt-6 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Teal.Darken1};")" @onclick="AddItemToCart">Add to cart</MudButton>
-    <MudButton Class="mt-2 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Red.Darken1};")" @onclick="RemoveFromUserFavorite">Remove </MudButton>
+    <MudButton Class="mt-6 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="AddItemToCart">Add to cart</MudButton>
+    <MudButton Class="mt-2 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Red.Default};")" @onclick="RemoveFromUserFavorite">Remove </MudButton>
 </MudCard>
 
 @code {
@@ -27,7 +27,7 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        string userId = user.Identity.Name;
+        string userId = user.Identity!.Name!;
 
         if (userId == null)
         {
@@ -40,12 +40,9 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        string userId = user.Identity.Name;
+        string userId = user.Identity!.Name!;
 
         mongo.RemoveProductFromUserFavorites(userId, product.Id);
         nav.NavigateTo("/favorites", true);
-
     }
 }
-
-

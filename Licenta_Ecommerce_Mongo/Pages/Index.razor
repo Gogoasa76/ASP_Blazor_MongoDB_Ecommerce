@@ -6,8 +6,8 @@
 @using Licenta_Ecommerce_Mongo.Shared.Components
 
 
-<MudLayout Class="mt-10">
-    <MudGrid Spacing="4" Justify="Justify.Center">
+<MudLayout Class="mt-10 d-flex align-center">
+    <MudGrid Spacing="4" Class="d-flex align-content-center flex-wrap flex-grow-1" Style="width: 70%"  Justify="Justify.Center">
         @foreach (Product product in products)
         {
             <MudItem>
@@ -26,7 +26,7 @@
     private async Task DisplayGreetingAlert()
     {
         var authState = await authenticationState;
-        var message = $"Hello {authState.User.Identity.Name}";
+        var message = $"Hello {authState.User.Identity!.Name!}";
         await js.InvokeVoidAsync("alert", message);
     }
     public async void AddProduct()

@@ -5,8 +5,9 @@
 @inject IJSRuntime js
 @inject MongoDBWrapper mongo;
 @inject NavigationManager nav
-<MudCard @onclick=" GoTo" Class="border-solid border-2 mud-border-dark " Style="height: 400px; width: 300px" Outlined="true">
-    <MudIconButton Class="position-absolute" Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Accent4};")" @onclick="AddItemToFavorites"/>
+
+<MudCard @onclick=" GoTo" Class="border-solid border-2  mud-border" Style="height: 400px; width: 300px" Outlined="true">
+    <MudIconButton Class="position-absolute" Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" @onclick="AddItemToFavorites"/>
     <MudCardHeader Class="justify-content-center">
         <MudImage Class="" Src="@product.ImageBase64" Height="200" Width="290"/>
     </MudCardHeader>
@@ -15,8 +16,9 @@
         <MudDivider />
         <MudText Typo="Typo.h6">@product.Price lei </MudText>
     </MudCardContent>
-    <MudButton Class="mt-6 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Teal.Darken1};")" @onclick="AddItemToCart">Add to cart</MudButton>
+    <MudButton Class="mt-6 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="AddItemToCart">Add to cart</MudButton>
 </MudCard>
+
 @code{
     [Parameter]
     public Product product { get; set; } = new Product();
@@ -51,5 +53,4 @@
     {
         nav.NavigateTo($"/productDetail/{product.Id}", true);
     }
-
 }

@@ -3,6 +3,7 @@
 @using Licenta_Ecommerce_Mongo.Data;
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject MongoDBWrapper mongo;
+@inject NavigationManager navManager
 @using Licenta_Ecommerce_Mongo.Shared.Components
 
 <MudLayout Class="d-flex justify-center flex-grow-1 gap-4">
@@ -58,7 +59,7 @@
 	}
 	public void SendOrder()
 	{
-
+		navManager.NavigateTo("/checkout", true);
 	}
 
 	public async void CalculateTotal()

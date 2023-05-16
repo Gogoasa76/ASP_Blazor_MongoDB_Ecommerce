@@ -8,28 +8,28 @@
 <MudCard Class="border-solid my-2 border-2 mud-border- " Style="width: 800px" Outlined="true">
     <MudGrid Justify="Justify.FlexStart">
         <MudItem>
-            <MudPaper>
-                <MudImage Class="mx-2 my-2" Src="@product.ImageBase64" Height="100" Width="100" />
+            <MudPaper Class="d-flex align-center flex-grow-1">
+                <MudImage Class="mx-2 my-2 d-flex" Src="@product.ImageBase64" Height="100" Width="100" />
             </MudPaper>
         </MudItem>
         <MudItem>
             <MudGrid Justify="Justify.FlexStart">
                 <MudItem Class="col-6" Style="height: auto; width: 400px" >
-                    <MudText Typo="Typo.h5">@product.Name</MudText>
+                    <MudText Class="mt-2" Typo="Typo.h5">@product.Name</MudText>
                 </MudItem>
                 <MudItem Class="d-flex align-center" Style="height:min-content; width: 150px">
-                    <MudIconButton Icon="@Icons.Material.Filled.HorizontalRule" @onclick=OnChangeQuantity Style="@($"color:{Colors.Shades.Black};")" Class="mx-1 mr-5"  />
-                    <MudText>@quantity</MudText>
-                    <MudIconButton Icon="@Icons.Material.Filled.Add" @onclick=AddQuantity Style="@($"color:{Colors.Shades.Black};")" Class="mx-1 mr-5"  />
+                    <MudIconButton Icon="@Icons.Material.Filled.HorizontalRule" @onclick=OnChangeQuantity Style="@($"color:{Colors.Shades.Black};")" Class="mt-4" />
+                    <MudText Class="mt-4">@quantity</MudText>
+                    <MudIconButton Icon="@Icons.Material.Filled.Add" @onclick=AddQuantity Style="@($"color:{Colors.Shades.Black};")" Class="mt-4" />
                 </MudItem>
                 <MudItem Class="d-flex align-center" Style="height: auto; width: 130px">
-                    <MudText Typo="Typo.h6">@priceQuantity lei </MudText>
+                    <MudText Class="mt-4" Typo="Typo.h6">@priceQuantity lei </MudText>
                 </MudItem>
             </MudGrid>
             <MudGrid Justify="Justify.FlexStart">
                 <MudItem Class="d-flex align-center">
-                    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Accent4};")" Class="mx-1" @onclick="AddItemToFavorites" />
-                    <MudButton Size="Size.Small" Variant="Variant.Filled" Style="@($"color:{Colors.Grey.Lighten5}; background:{Colors.Teal.Darken1};")" @onclick="RemoveFromUserCart">Remove from cart</MudButton>
+                    <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" Class="mx-1" @onclick="AddItemToFavorites" />
+                    <MudButton Size="Size.Small" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="RemoveFromUserCart">Remove from cart</MudButton>
                 </MudItem>
             </MudGrid>
         </MudItem>
@@ -70,7 +70,6 @@
         await mongo.UpdateProductQuantiry(userId,product.Id, quantity);
         nav.NavigateTo("/cart",true);
     }
-
     public void RemoveFromUserCart()
     {
         mongo.RemoveProductFromUserCart(userId, product.Id);

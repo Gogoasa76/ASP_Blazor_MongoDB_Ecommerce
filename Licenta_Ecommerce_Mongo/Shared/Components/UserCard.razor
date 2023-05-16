@@ -2,15 +2,16 @@
 @inject NavigationManager nav
 @using Licenta_Ecommerce_Mongo.DBConnections;
 @using Licenta_Ecommerce_Mongo.Data;
-<div class="container">
-    <div class="row">
-        <div class="col-sm">@user.Id</div>
-        <div class="col-sm">@user.UserName</div>
-        <div class="col-sm">@user.Email</div>
-        <button type="button" class="col-sm btn btn-primary" @onclick="UpdateProduct">Update</button>
-        <button type="button" class="col-sm btn btn-danger" @onclick="RemoveProduct">Remove</button>
-    </div>
-</div>
+
+<MudContainer Class="my-6">
+    <MudGrid Class="border">
+        <MudItem xs="3" sm="2">ID: @user.Id</MudItem>
+        <MudItem xs="3" sm="4">Username: @user.UserName</MudItem>
+        <MudItem xs="3" sm="4">Email: @user.Email</MudItem>
+        <MudButton @onclick="UpdateProduct" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Update</MudButton>
+        <MudButton @onclick="RemoveProduct" Class="my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Red.Default};")">Remove</MudButton>
+    </MudGrid>
+</MudContainer>
 @code {
 	[Parameter]
 	public UserAccount user { get; set; } = new();
@@ -23,6 +24,5 @@
     {
         await mongo.DeleteUserById(user.Id);
         nav.NavigateTo("/updateUser", true);
-
     }
 }
