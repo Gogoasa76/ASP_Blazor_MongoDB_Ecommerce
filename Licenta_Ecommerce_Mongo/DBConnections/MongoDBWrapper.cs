@@ -56,8 +56,7 @@ namespace Licenta_Ecommerce_Mongo.DBConnections
                 .Set(P => P.Discount, product.Discount)
                 .Set(P => P.Price, product.Price)
                 .Set(P => P.Tags, product.Tags)
-                .Set(P => P.ImageBase64, product.ImageBase64)
-                .Set(P => P.Quantity, product.Quantity);
+                .Set(P => P.ImageBase64, product.ImageBase64);
             await collectionProduct.UpdateOneAsync(P => P.Id == product.Id, definition);
         }
 		public async Task UpdateProductQuantiry(string userid,string productId,int quantity)

@@ -10,8 +10,7 @@ namespace Licenta_Ecommerce_Mongo.Authentication
         {
             _users = new List<UserAccount>
             {
-                new UserAccount{ UserName = "admin", Password = "12", Role = "Admin" },
-                new UserAccount{ UserName = "user", Password = "1", Role = "User" }
+
             };
         }
 

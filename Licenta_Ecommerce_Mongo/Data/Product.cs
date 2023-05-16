@@ -13,14 +13,13 @@ namespace Licenta_Ecommerce_Mongo.Data
         public List<string> Tags { get; set; }
         public int Price { get; set; } = 0;
         public int Discount { get; set; } = 0;
-        public int Quantity { get; set; } = 0;
 
         public Product()
         {
 
         }
 
-        public Product(string name,string description, string imageBase64,List<string> tags,int price,int discount,int quantity)
+        public Product(string name,string description, string imageBase64,List<string> tags,int price,int discount)
         {
             Name = name;
             Description = description;
@@ -31,8 +30,6 @@ namespace Licenta_Ecommerce_Mongo.Data
             //se asigura ca discountul e intre 0 si 100
             Discount = discount < 0 ? -discount : discount;
             Discount = discount % 100;
-            //Se asigura ca canditatea nu e negativa
-            Quantity = quantity < 0 ? -quantity : quantity;
         }
     }
 }
