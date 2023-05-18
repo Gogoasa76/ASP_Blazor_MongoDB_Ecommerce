@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Licenta_Ecommerce_Mongo.Authentication
+namespace ASP_Blazor_MongoDB_Ecommerce.Authentication
 {
     public static class Hashing
     {

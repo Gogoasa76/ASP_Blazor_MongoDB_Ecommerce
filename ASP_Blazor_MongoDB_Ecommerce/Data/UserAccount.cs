@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace Licenta_Ecommerce_Mongo.Data
+namespace ASP_Blazor_MongoDB_Ecommerce.Data
 {
     public class UserAccount
     {

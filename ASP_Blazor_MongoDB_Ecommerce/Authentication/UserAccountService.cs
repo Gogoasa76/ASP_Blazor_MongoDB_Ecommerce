@@ -1,5 +1,5 @@
 ﻿
-namespace Licenta_Ecommerce_Mongo.Authentication
+namespace ASP_Blazor_MongoDB_Ecommerce.Authentication
 {
     public class UserAccountService { }
 }

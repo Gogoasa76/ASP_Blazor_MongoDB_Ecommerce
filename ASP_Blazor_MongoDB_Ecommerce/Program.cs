@@ -1,6 +1,6 @@
-using Licenta_Ecommerce_Mongo.Authentication;
-using Licenta_Ecommerce_Mongo.DBConnections;
-using Licenta_Ecommerce_Mongo.Utilitary;
+using ASP_Blazor_MongoDB_Ecommerce.Authentication;
+using ASP_Blazor_MongoDB_Ecommerce.DBConnections;
+using ASP_Blazor_MongoDB_Ecommerce.Utilitary;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using MudBlazor.Services;

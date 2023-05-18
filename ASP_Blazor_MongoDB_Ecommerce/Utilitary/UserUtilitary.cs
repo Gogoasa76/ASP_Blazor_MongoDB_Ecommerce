@@ -1,6 +1,6 @@
-﻿using Licenta_Ecommerce_Mongo.DBConnections;
+﻿using ASP_Blazor_MongoDB_Ecommerce.DBConnections;
 
-namespace Licenta_Ecommerce_Mongo.Utilitary
+namespace ASP_Blazor_MongoDB_Ecommerce.Utilitary
 {
     public class UserUtilitary
     {

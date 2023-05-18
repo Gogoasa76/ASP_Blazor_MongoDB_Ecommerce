@@ -1,8 +1,8 @@
-﻿using Licenta_Ecommerce_Mongo.Authentication;
-using Licenta_Ecommerce_Mongo.Data;
+﻿using ASP_Blazor_MongoDB_Ecommerce.Authentication;
+using ASP_Blazor_MongoDB_Ecommerce.Data;
 using MongoDB.Driver;
 
-namespace Licenta_Ecommerce_Mongo.DBConnections
+namespace ASP_Blazor_MongoDB_Ecommerce.DBConnections
 {
     public class MongoDBWrapper
     {
