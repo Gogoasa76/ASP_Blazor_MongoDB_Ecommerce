@@ -13,14 +13,13 @@
 		</NotAuthorized>
 		<Authorized>
 			<MudList >
-				<MudPaper>
+				<MudItem>
 					@if (products.Count == 0)
 					{
 						<h1 class="text-center">The Cart is empty</h1>
 					}
 					else
 					{
-
 						foreach(Product product in products)
 						{
 							<MudItem>
@@ -28,15 +27,14 @@
 							</MudItem>
 						}
 					}
-				</MudPaper>
-
-				<MudText > @total Lei</MudText>
-
-				<MudButton @onclick="SendOrder">Send order</MudButton>
+					<MudText Typo="Typo.h5">Price: @total Lei</MudText>
+					<MudButton Class="col-6" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="SendOrder">Send Order</MudButton>
+				</MudItem>
 			</MudList>
 		</Authorized>
 	</AuthorizeView>
 </MudLayout>
+
 @code {
 	public List<Product> products { get; set; } = new();
 	public int total { get; set; } = 0;
@@ -68,7 +66,6 @@
 		{
 			int quantity = await mongo.GetQuantityForProduct(userId, product.Id);
 			total += product.Price * quantity;
-			Console.WriteLine(total);
 			
 		}
 		await InvokeAsync(StateHasChanged);

@@ -14,22 +14,6 @@ namespace Licenta_Ecommerce_Mongo.Data
         public int Price { get; set; } = 0;
         public int Discount { get; set; } = 0;
 
-        public Product()
-        {
-
-        }
-
-        public Product(string name,string description, string imageBase64,List<string> tags,int price,int discount)
-        {
-            Name = name;
-            Description = description;
-            ImageBase64 = imageBase64;
-            Tags = tags;
-            //se asigura ca pretul nu e negativ
-            Price = price < 0 ? -price : price;
-            //se asigura ca discountul e intre 0 si 100
-            Discount = discount < 0 ? -discount : discount;
-            Discount = discount % 100;
-        }
+        public Product() { }
     }
 }

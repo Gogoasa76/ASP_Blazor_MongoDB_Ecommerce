@@ -1,11 +1,8 @@
 using Licenta_Ecommerce_Mongo.Authentication;
-using Licenta_Ecommerce_Mongo.Data;
 using Licenta_Ecommerce_Mongo.DBConnections;
 using Licenta_Ecommerce_Mongo.Utilitary;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,16 +19,13 @@ builder.Services.AddSingleton<MongoDBWrapper>();
 builder.Services.AddMudServices();
 var app = builder.Build();
 
-
 UserUtilitary.CreateDefaultAdminIfNoneExist();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
-
 
 app.UseStaticFiles();
 

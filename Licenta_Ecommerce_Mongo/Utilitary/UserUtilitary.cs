@@ -1,5 +1,4 @@
-﻿
-using Licenta_Ecommerce_Mongo.DBConnections;
+﻿using Licenta_Ecommerce_Mongo.DBConnections;
 
 namespace Licenta_Ecommerce_Mongo.Utilitary
 {

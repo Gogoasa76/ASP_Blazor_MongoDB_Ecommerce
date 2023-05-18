@@ -6,16 +6,22 @@
 <MudContainer Class="my-6">
     <MudGrid Class="border">
         <MudItem xs="3" sm="2">ID: @product.Id</MudItem>
-        <MudItem xs="3" sm="6">Product name: @product.Name</MudItem>
+        <MudItem xs="3" sm="5">Product name: @product.Name</MudItem>
         <MudItem xs="3" sm="2">Price: @product.Price</MudItem>
+        <MudButton @onclick="ceva" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Add Image</MudButton>
         <MudButton @onclick="UpdateProduct" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Update</MudButton>
         <MudButton @onclick="RemoveProduct" Class="my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Red.Default};")">Remove</MudButton>
     </MudGrid>
 </MudContainer>
+
 @code {
     [Parameter]
     public Product product { get; set; } = new();
 
+    public void ceva()
+    {
+        nav.NavigateTo($"/imageAddProduct/{product.Id}", true);
+    }
     public void UpdateProduct()
     {
         nav.NavigateTo($"/updateProduct/{product.Id}", true);

@@ -5,7 +5,6 @@
 @inject MongoDBWrapper mongo
 @using Licenta_Ecommerce_Mongo.Shared.Components
 
-
 <MudLayout Class="mt-10 d-flex align-center">
     <MudGrid Spacing="4" Class="d-flex align-content-center flex-wrap flex-grow-1" Style="width: 70%"  Justify="Justify.Center">
         @foreach (Product product in products)
@@ -17,7 +16,6 @@
     </MudGrid>
 </MudLayout>
 
-
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -28,10 +26,6 @@
         var authState = await authenticationState;
         var message = $"Hello {authState.User.Identity!.Name!}";
         await js.InvokeVoidAsync("alert", message);
-    }
-    public async void AddProduct()
-    {
-        await mongo.AddItem(new("nume","description","image",new (),1,1,1));
     }
     protected override async Task OnInitializedAsync()
     {

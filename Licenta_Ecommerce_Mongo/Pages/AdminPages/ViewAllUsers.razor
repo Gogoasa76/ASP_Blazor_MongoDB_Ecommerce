@@ -1,14 +1,14 @@
-﻿@using Licenta_Ecommerce_Mongo.DBConnections;
+﻿@page "/updateUser"
+@using Licenta_Ecommerce_Mongo.DBConnections;
 @using Licenta_Ecommerce_Mongo.Data;
 @using Licenta_Ecommerce_Mongo.Shared.Components
 @inject MongoDBWrapper mongo;
-
-@page "/updateUser"
 
 @foreach(UserAccount user in users)
 {
 	<UserCard user="user"></UserCard>
 }
+
 @code {
 	public List<UserAccount> users = new();
 

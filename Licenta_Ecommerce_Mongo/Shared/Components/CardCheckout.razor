@@ -8,9 +8,9 @@
 <MudCard Class="border-solid my-2 border-2 mud-border- " Style="width: 800px" Outlined="true">
     <MudGrid Justify="Justify.FlexStart">
         <MudItem>
-            <MudPaper>
+            <MudItem>
                 <MudImage Class="mx-2 my-2" Src="@product.ImageBase64" Height="100" Width="100" />
-            </MudPaper>
+            </MudItem>
         </MudItem>
         <MudItem>
             <MudGrid Justify="Justify.FlexStart">
@@ -42,32 +42,33 @@
     public int priceQuantity = 0;
     int quantity = 0;
     string userId = "";
-    
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         userId = user.Identity!.Name!;
-        
+
         quantity = await mongo.GetQuantityForProduct(userId, product.Id);
         priceQuantity = product.Price * quantity;
     }
     public async void OnChangeQuantity()
     {
         quantity--;
-        if (product.Quantity<0)
-        {
-            product.Quantity = 0;
-        }
         priceQuantity = product.Price * quantity;
-        await mongo.UpdateProductQuantiry(userId,product.Id, quantity);
+        await mongo.UpdateProductQuantiry(userId, product.Id, quantity);
+        if (quantity <= 0)
+        {
+            RemoveFromUserCart();
+            quantity = 0;
+        }
         nav.NavigateTo("/checkOut", true);
     }
     public async void AddQuantity()
     {
         quantity++;
         priceQuantity = product.Price * quantity;
-        await mongo.UpdateProductQuantiry(userId,product.Id, quantity);
+        await mongo.UpdateProductQuantiry(userId, product.Id, quantity);
         nav.NavigateTo("/checkOut", true);
     }
     public void RemoveFromUserCart()

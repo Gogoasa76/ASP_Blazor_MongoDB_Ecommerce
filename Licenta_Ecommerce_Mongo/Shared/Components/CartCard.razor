@@ -8,9 +8,9 @@
 <MudCard Class="border-solid my-2 border-2 mud-border- " Style="width: 800px" Outlined="true">
     <MudGrid Justify="Justify.FlexStart">
         <MudItem>
-            <MudPaper Class="d-flex align-center flex-grow-1">
+            <MudItem Class="d-flex align-center flex-grow-1">
                 <MudImage Class="mx-2 my-2 d-flex" Src="@product.ImageBase64" Height="100" Width="100" />
-            </MudPaper>
+            </MudItem>
         </MudItem>
         <MudItem>
             <MudGrid Justify="Justify.FlexStart">
@@ -18,7 +18,7 @@
                     <MudText Class="mt-2" Typo="Typo.h5">@product.Name</MudText>
                 </MudItem>
                 <MudItem Class="d-flex align-center" Style="height:min-content; width: 150px">
-                    <MudIconButton Icon="@Icons.Material.Filled.HorizontalRule" @onclick=OnChangeQuantity Style="@($"color:{Colors.Shades.Black};")" Class="mt-4" />
+                    <MudIconButton Icon="@Icons.Material.Filled.HorizontalRule" @onclick=RemoveQuantity Style="@($"color:{Colors.Shades.Black};")" Class="mt-4" />
                     <MudText Class="mt-4">@quantity</MudText>
                     <MudIconButton Icon="@Icons.Material.Filled.Add" @onclick=AddQuantity Style="@($"color:{Colors.Shades.Black};")" Class="mt-4" />
                 </MudItem>
@@ -42,33 +42,34 @@
     public int priceQuantity = 0;
     int quantity = 0;
     string userId = "";
-    
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         userId = user.Identity!.Name!;
-        
+
         quantity = await mongo.GetQuantityForProduct(userId, product.Id);
         priceQuantity = product.Price * quantity;
     }
-    public async void OnChangeQuantity()
+    public async void RemoveQuantity()
     {
         quantity--;
-        if (product.Quantity<0)
-        {
-            product.Quantity = 0;
-        }
         priceQuantity = product.Price * quantity;
-        await mongo.UpdateProductQuantiry(userId,product.Id, quantity);
-        nav.NavigateTo("/cart",true);
+        await mongo.UpdateProductQuantiry(userId, product.Id, quantity);
+        if (quantity <= 0)
+        {
+            RemoveFromUserCart();
+            quantity = 0;
+        }
+        nav.NavigateTo("/cart", true);
     }
     public async void AddQuantity()
     {
         quantity++;
         priceQuantity = product.Price * quantity;
-        await mongo.UpdateProductQuantiry(userId,product.Id, quantity);
-        nav.NavigateTo("/cart",true);
+        await mongo.UpdateProductQuantiry(userId, product.Id, quantity);
+        nav.NavigateTo("/cart", true);
     }
     public void RemoveFromUserCart()
     {

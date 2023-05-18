@@ -1,0 +1,63 @@
+﻿@page "/imageAddProduct/{id}"
+@using Licenta_Ecommerce_Mongo.DBConnections;
+@using Licenta_Ecommerce_Mongo.Data;
+@inject MongoDBWrapper mongo;
+@inject NavigationManager nav;
+
+<MudContainer Class="mt-16" >
+    <MudList>
+    <MudItem Class="mb-4">
+        <MudText Class="py-2 my-2 pl-2 border">Product Id: @product.Id</MudText>
+        <MudText Class="py-2 my-2 pl-2 border">Product Name: @product.Name</MudText>
+    </MudItem>
+    <MudItem Class="border pb-2">
+        <MudText Class="py-2 my-2 pl-2">Select Images:</MudText>  
+        <InputFile class="ml-2" OnChange="@OnChange" multiple/>
+    </MudItem>
+        <MudGrid Class="my-4 d-flex align-content-start flex-wrap flex-grow-1 gap-2">
+        @foreach(var imageUrl in imageUrls)
+        {
+            <MudItem Class="" Style="width:300px; height:300px">
+                <img src="@imageUrl" style="width: 100%; height: 100%"/>
+            </MudItem>
+        }
+    </MudGrid>
+        <MudButton @onclick="SubmitItem" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Add Carousel Images</MudButton>
+    </MudList>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public string id { get; set; } = string.Empty;
+    public Product product { get; set; } = new();
+    public ImageProduct imageProduct { get; set; } = new();
+    List<string> imageUrls = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await mongo.GetProductById(id);
+    }
+    private async void SubmitItem()
+    {
+        imageProduct.ProductId = product.Id;
+
+        await mongo.AddProductImage(imageProduct);
+        nav.NavigateTo("/updateProduct", true);
+    }
+    async Task OnChange(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        var format = "image/jpeg";
+
+        foreach(var imageFile  in imageFiles)
+        {
+            var resizedImageFile = await imageFile.RequestImageFileAsync(format, 800, 600);
+            var buffer = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+
+            var imageUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            imageUrls.Add(imageUrl);
+            imageProduct.ImageBase64 = imageUrls;
+        }
+    }
+}

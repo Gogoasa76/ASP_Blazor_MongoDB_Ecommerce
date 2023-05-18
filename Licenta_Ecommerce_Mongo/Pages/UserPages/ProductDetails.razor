@@ -1,21 +1,79 @@
 ﻿@page "/productDetail/{id}"
 @using Licenta_Ecommerce_Mongo.DBConnections;
 @using Licenta_Ecommerce_Mongo.Data;
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime js
 @inject MongoDBWrapper mongo;
 @inject NavigationManager nav;
 
-<h3>ProductDetails</h3>
+<MudContainer Class="mt-10">
+    <MudList>
+        <MudItem sm="10" Class="d-flex mb-4">
+            <MudText Class="d-flex" Typo="Typo.h3" >@product.Name</MudText>
+        </MudItem>
+        <MudGrid Class="d-flex align-content-center">
+            <MudItem>
+                <MudCarousel Class="" Style="height:600px; width:800px" ShowArrows="true" EnableSwipeGesture="true" AutoCycle="true" TData="object">
+                    @foreach (string imageProduct in imageProduct.ImageBase64)
+                    {
+                        <MudCarouselItem Class="" Transition="transition" Color="@Color.Primary">
+                                <MudImage Src="@imageProduct" />
+                        </MudCarouselItem>
+                    }
+                </MudCarousel>
+            </MudItem>
+            <MudList Class="flex align-center flex-grow-1 gap-4">
+                <MudIconButton Class="mx-4" Icon="@Icons.Material.Filled.FavoriteBorder" Size="Size.Large" Style="@($"color:{Colors.Red.Default};")" @onclick="AddItemToFavorites" />
+                <MudText Class="my-4 mx-4" Typo="Typo.h4">Price:@product.Price Lei</MudText>
+                <MudButton Class="col-8 mt-2 mx-4" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="AddItemToCart">Add to cart</MudButton>
+            </MudList>
+        </MudGrid>
+        <MudItem Class="mt-16">
+            <MudText Typo="Typo.h4">@product.Description</MudText>
+        </MudItem>
+    </MudList>
+</MudContainer>
 
 @code {
     [Parameter]
     public string id { get; set; } = string.Empty;
-
     public Product product { get; set; } = new();
-
+    public ImageProduct imageProduct { get; set; } = new();
+    private Transition transition = Transition.Slide;
 
     protected override async Task OnInitializedAsync()
     {
         product = await mongo.GetProductById(id);
+        imageProduct = await mongo.GetProductImage(id);
+    }
+    public async void AddItemToCart()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        string userId = user.Identity!.Name!;
+
+        if (userId == null)
+        {
+            await js.InvokeVoidAsync("alert", "Login to add to cart");
+            return;
+        }
+        await mongo.AddItemToCart(userId, product.Id);
+    }
+    public async void AddItemToFavorites()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        string userId = user.Identity!.Name!;
+
+        if (userId == null)
+        {
+            await js.InvokeVoidAsync("alert", "Login to add to favorites");
+            return;
+        }
+        await mongo.AddItemToFavorites(userId, product.Id);
+    }
+    public void GoTo()
+    {
+        nav.NavigateTo($"/productDetail/{product.Id}", true);
     }
 }

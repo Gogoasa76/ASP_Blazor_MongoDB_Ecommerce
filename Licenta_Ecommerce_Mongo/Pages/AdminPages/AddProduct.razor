@@ -12,9 +12,9 @@
         </MudItem>
         <MudItem Class="my-4">
             <MudText>Description</MudText>
-            <input class="form-control" @bind="product.Description" type="text" />
+            <input class="form-control" @bind="product.Description" type="text"/>
         </MudItem>
-                <MudItem Class="my-4">
+        <MudItem Class="my-4">
             <MudText>Price</MudText>
             <input class="form-control"  @bind="product.Price" type="number" />
         </MudItem>
@@ -35,7 +35,6 @@
 
 @code{
     Product product = new();
-
     string tagsAsString = string.Empty;
 
     private async void SubmitItem()
@@ -54,7 +53,7 @@
         {
             if (string.Equals(file.ContentType, format, StringComparison.OrdinalIgnoreCase))
             {
-                IBrowserFile image = await file.RequestImageFileAsync(format, 1000, 1000);
+                IBrowserFile image = await file.RequestImageFileAsync(format, 290, 200);
                 byte[] buffer = new byte[image.Size];
 
                 await image.OpenReadStream(maxAllowedSize: maxSize).ReadAsync(buffer);

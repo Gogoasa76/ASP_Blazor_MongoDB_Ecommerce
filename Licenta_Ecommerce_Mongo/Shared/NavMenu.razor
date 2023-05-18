@@ -35,9 +35,7 @@
     </MudButtonGroup>
 </MudNavMenu>
 @code {
-    private bool isVisible;
     public string tag1 = "masina";
-
 
     public async Task Search()
     {
@@ -45,7 +43,6 @@
     }
     public void OpenOverlay()
     {
-        isVisible = true;
         StateHasChanged();
     }
 }

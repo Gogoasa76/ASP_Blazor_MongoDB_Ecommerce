@@ -4,10 +4,9 @@
 @inject MongoDBWrapper mongo;
 @page "/updateProduct"
 
-
 @foreach(Product prod in products)
 {
-	<AdminCard product="prod"/>
+	<CardProduct product="prod"/>
 }
 
 @code {

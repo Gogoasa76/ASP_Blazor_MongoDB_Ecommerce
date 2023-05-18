@@ -3,7 +3,7 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
 
-<PageTitle>Magazin</PageTitle>
+<PageTitle>Ecommerce</PageTitle>
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -25,7 +25,6 @@
                 <Authorized>
                     <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" Class="mx-1" Href="favorites" />
                     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" Style="@($"color:{Colors.Shades.Black};")" Class="mx-1 mr-5" Href="cart" />
-
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Logout" Class="mr-16" Href="javascript:void(0)">Logout</MudButton>
                 </Authorized>
                 <NotAuthorized>

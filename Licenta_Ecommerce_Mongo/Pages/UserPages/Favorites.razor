@@ -1,10 +1,10 @@
 ﻿@page "/favorites"
-
 @using Licenta_Ecommerce_Mongo.DBConnections;
 @using Licenta_Ecommerce_Mongo.Data;
+@using Licenta_Ecommerce_Mongo.Shared.Components
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject MongoDBWrapper mongo;
-@using Licenta_Ecommerce_Mongo.Shared.Components
+
 <MudLayout Class="mt-10">
 	<AuthorizeView>
 		<NotAuthorized>
@@ -14,13 +14,12 @@
 			<MudGrid Spacing="4" Justify="Justify.Center">
 				@if (products.Count == 0)
 				{
-					<h3 class="text-center">The Cart is empty</h3>
+					<h3 class="text-center">The Favorites is empty</h3>
 				}
 				else
 				{
 					foreach (Product product in products)
 					{
-
 						<MudItem>
 							<FavoritesCard product="product" />
 						</MudItem>
@@ -30,6 +29,7 @@
 		</Authorized>
 	</AuthorizeView>
 </MudLayout>
+
 @code {
 	public List<Product> products { get; set; } = new();
 	protected override async Task OnInitializedAsync()
@@ -40,7 +40,6 @@
 		try
 		{
 			products = await mongo.GetFavoritesByUserId(userId);
-			Console.WriteLine(products.Count);
 		}
 		catch (Exception)
 		{

@@ -21,12 +21,11 @@
         <MudButton @onclick="SubmitItem" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Update</MudButton>
     </MudList>
 </MudContainer>
+
 @code {
     [Parameter]
     public string id { get; set; } = string.Empty;
-
     public Product product { get; set; } = new();
-
 
     protected override async Task OnInitializedAsync()
     {

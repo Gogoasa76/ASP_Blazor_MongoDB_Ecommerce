@@ -39,15 +39,14 @@
         <MudItem xs="6">
             <MudPaper Style="width: 100%">
                 <MudForm Class="row g-6 mx-auto" Style="width:95%" @bind-IsValid="@success" @bind-Errors="@errors" ReadOnly="false">
-                    <MudText Class="col-6 mb-4 mt-2" Typo="Typo.h6">Your cart</MudText>
-                    <MudGrid>
-                        <MudPaper>
+                    <MudText Class="col-6  mt-2" Typo="Typo.h6">Your cart</MudText>
+                    <MudList>
+                        <MudItem>
                             @if (products.Count == 0)
                             {
                                 <MudItem>
-                                    <MudText Typo="Typo.h5">The Cart is empty</MudText>
+                                    <MudText Typo="Typo.h5">The Cart is empty.</MudText>
                                 </MudItem>
-
                             }
                             else
                             {
@@ -58,9 +57,9 @@
                                     </MudItem>
                                 }
                             }
-                        </MudPaper>
+                        </MudItem>
                         <MudText Class="mt-3 mb-4 " Style="@($"color:{Colors.Shades.Black}")" Typo="Typo.h5">Total: @total Lei</MudText>
-                    </MudGrid>
+                    </MudList>
                 </MudForm>   
             </MudPaper>
         </MudItem>
