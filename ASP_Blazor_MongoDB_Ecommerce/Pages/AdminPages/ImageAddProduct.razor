@@ -51,7 +51,7 @@
 
         foreach(var imageFile  in imageFiles)
         {
-            var resizedImageFile = await imageFile.RequestImageFileAsync(format, 800, 600);
+            var resizedImageFile = await imageFile.RequestImageFileAsync(format, 600, 600);
             var buffer = new byte[resizedImageFile.Size];
             await resizedImageFile.OpenReadStream().ReadAsync(buffer);
 

@@ -53,7 +53,7 @@
         {
             if (string.Equals(file.ContentType, format, StringComparison.OrdinalIgnoreCase))
             {
-                IBrowserFile image = await file.RequestImageFileAsync(format, 290, 200);
+                IBrowserFile image = await file.RequestImageFileAsync(format, 600, 600);
                 byte[] buffer = new byte[image.Size];
 
                 await image.OpenReadStream(maxAllowedSize: maxSize).ReadAsync(buffer);

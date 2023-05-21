@@ -30,7 +30,6 @@ namespace ASP_Blazor_MongoDB_Ecommerce.DBConnections
             collectionImage = db.GetCollection<ImageProduct>(collectionImageProduct);
         }
 
-        //
         #region Product
         public async Task<List<Product>> GetAll()
         {
@@ -73,7 +72,6 @@ namespace ASP_Blazor_MongoDB_Ecommerce.DBConnections
         }
         #endregion
 
-        //
         #region User
         public async Task<List<UserAccount>> GetAllUsers()
         {
