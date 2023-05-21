@@ -47,16 +47,17 @@
     async Task OnChange(InputFileChangeEventArgs e)
     {
         string format = "image/jpeg";
-        long maxSize = 512000000;
 
         foreach (IBrowserFile file in e.GetMultipleFiles())
         {
             if (string.Equals(file.ContentType, format, StringComparison.OrdinalIgnoreCase))
             {
-                IBrowserFile image = await file.RequestImageFileAsync(format, 600, 600);
-                byte[] buffer = new byte[image.Size];
-
-                await image.OpenReadStream(maxAllowedSize: maxSize).ReadAsync(buffer);
+                long maxFileSize = 1024 * 1024 * 5; // 5 MB or whatever, don't just use max int
+                var readStream = (await file.RequestImageFileAsync(format, 600, 600)).OpenReadStream(maxFileSize);
+                var buf = new byte[readStream.Length];
+                var ms = new MemoryStream(buf);
+                await readStream.CopyToAsync(ms);
+                var buffer = ms.ToArray();
                 product.ImageBase64 = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
             }
         }

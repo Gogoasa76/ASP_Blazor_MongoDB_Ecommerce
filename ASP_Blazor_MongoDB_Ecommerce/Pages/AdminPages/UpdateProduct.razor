@@ -15,6 +15,11 @@
             <input class="form-control"  @bind="product.Description" type="text" />
         </MudItem>
         <MudItem Class="my-4">
+            <MudText>Tags</MudText>
+            <MudText Color="Color.Error">tag separatioin by "," example: tag1,tag2</MudText>
+            <input class="form-control" @bind="Tags" type="text" />
+        </MudItem>
+        <MudItem Class="my-4">
             <MudText>Price</MudText>
             <input class="form-control"  @bind="product.Price" type="number" />
         </MudItem>
@@ -26,13 +31,16 @@
     [Parameter]
     public string id { get; set; } = string.Empty;
     public Product product { get; set; } = new();
+    public string Tags { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         product = await mongo.GetProductById(id);
+        Tags = string.Join(",", product.Tags.ToArray());
     }
     public async void SubmitItem()
     {
+        product.Tags = Tags.Split(",").ToList();
         await mongo.UpdateProduct(product);
         nav.NavigateTo("/updateProduct");
     }
