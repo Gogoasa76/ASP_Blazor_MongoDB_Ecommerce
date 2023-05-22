@@ -5,7 +5,7 @@
 
 <PageTitle>Ecommerce</PageTitle>
 
-<MudThemeProvider />
+<MudThemeProvider Theme="@CustomeText" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -18,21 +18,21 @@
                     <MudTextField Class="ml-4" @bind-Value="TextValue" Label="Search by tag" AdornmentColor="Color.Primary" Variant="Variant.Outlined" Margin="Margin.Dense" Style="width: 300px" />
                 </MudItem>
                 <MudItem>
-                    <MudButton Class="mt-1" Variant="Variant.Filled" Color="Color.Primary" @onclick="Search">Search</MudButton>
+                    <MudButton Class="mt-1" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="Search">Search</MudButton>
                 </MudItem>
             </MudGrid>
              <AuthorizeView>
                 <Authorized>
                     <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" Class="mx-1" Href="favorites" />
                     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" Style="@($"color:{Colors.Shades.Black};")" Class="mx-1 mr-5" Href="cart" />
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Logout" Class="mr-16" Href="javascript:void(0)">Logout</MudButton>
+                    <MudButton Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="Logout" Class="mr-16" Href="javascript:void(0)">Logout</MudButton>
                 </Authorized>
                 <NotAuthorized>
                     <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" Class="mx-1" Href="favorites" />
                     <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" Style="@($"color:{Colors.Shades.Black};")" Class="mx-1 mr-5" Href="cart" />
 
-                    <MudButton Variant="Variant.Filled" Color="Color.Info" Class="mx-3" Href="/login">LogIn</MudButton>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mr-16" Href="/signup">SignUp</MudButton>
+                    <MudButton Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken1};")" Class="mx-3" Href="/login">LogIn</MudButton>
+                    <MudButton Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White};background:{Colors.Cyan.Darken3};")" Class="mr-16" Href="/signup">SignUp</MudButton>
                 </NotAuthorized>
             </AuthorizeView>
         </MudAppBar>
@@ -51,6 +51,24 @@
     public string TextValue { get; set; } = string.Empty;
     public async Task Search()
     {
-        navManager.NavigateTo($"/itemByTag/{TextValue}", true);
+        if (TextValue != string.Empty)
+        {
+            navManager.NavigateTo($"/itemByTag/{TextValue}", true);
+        }
+
     }
+
+    MudTheme CustomeText = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Primary = Colors.Blue.Darken3,
+                Secondary = Colors.Green.Accent4,
+                AppbarBackground = Colors.Red.Default,
+                Info = Colors.Shades.White,
+                TextSecondary = Colors.Shades.White,
+                //Define other properties here.
+            },
+
+        };
 }

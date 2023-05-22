@@ -6,17 +6,21 @@
 @inject MongoDBWrapper mongo;
 @inject NavigationManager nav
 
-<MudCard @onclick=" GoTo" Class="border-solid border-2  mud-border" Style="height: 400px; width: 300px" Outlined="true">
+<MudCard @onclick=" GoTo" Class="border-solid border-2  mud-border" Style="height: 500px; width: 300px" Outlined="true">
     <MudIconButton Class="position-absolute" Icon="@Icons.Material.Filled.FavoriteBorder" Style="@($"color:{Colors.Red.Default};")" @onclick="AddItemToFavorites"/>
     <MudCardHeader Class="justify-content-center">
         <MudImage Class="" Src="@product.ImageBase64" Height="200" Width="290"/>
     </MudCardHeader>
-    <MudCardContent Class="justify-content-center">
+    <MudCardContent Class="justify-content-center" Style="height: 140px">
         <MudText Typo="Typo.h5">@product.Name</MudText>
         <MudDivider />
-        <MudText Typo="Typo.h6">@product.Price lei </MudText>
     </MudCardContent>
-    <MudButton Class="mt-6 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="AddItemToCart">Add to cart</MudButton>
+    <MudCardContent>
+        <MudText Typo="Typo.h6">@product.Price lei </MudText>
+        <MudDivider />
+        <MudButton Class="mt-6 ml-12 col-8" Variant="Variant.Filled" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")" @onclick="AddItemToCart">Add to cart</MudButton>
+    </MudCardContent>
+    
 </MudCard>
 
 @code{

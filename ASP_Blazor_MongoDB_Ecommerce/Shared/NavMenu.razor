@@ -1,33 +1,43 @@
 ﻿@inject NavigationManager navManager
-<MudNavMenu Class="mx-auto  teal darken-1">
+<MudNavMenu Class="mx-auto" Style="@($"background:{Colors.Teal.Darken2};")">
     <MudButtonGroup Class="mx-16">
-        <MudMenu StartIcon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Dark" Class="px-6 color text-white" Label="Categories" Variant="Variant.Filled">
-            <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(samsung)">
-                <MudText >Samsung</MudText>
-            </MudMenuItem>
-            <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(apple)">
-                <MudText>Apple</MudText>
-            </MudMenuItem>            
-            <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(xiaomi)">
-                <MudText >Xiaomi</MudText>
-            </MudMenuItem>
-            <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(nokia)">
-                <MudText>Nokia</MudText>
-            </MudMenuItem>
-            <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(sony)">
-                <MudText>Sony</MudText>
-            </MudMenuItem>
+        <MudMenu  Color="Color.Error" StartIcon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Info" Class="px-6" Variant="Variant.Text">
+            <ActivatorContent>
+                <MudButton StartIcon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Info" Class="px-6" Variant="Variant.Text" Style="@($"color:{Colors.Shades.White};")">Products</MudButton>
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(samsung)">
+                    <MudText >Samsung</MudText>
+                </MudMenuItem>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(apple)">
+                    <MudText>Apple</MudText>
+                </MudMenuItem>            
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(xiaomi)">
+                    <MudText >Xiaomi</MudText>
+                </MudMenuItem>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(nokia)">
+                    <MudText>Nokia</MudText>
+                </MudMenuItem>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(sony)">
+                    <MudText>Sony</MudText>
+                </MudMenuItem>
+            </ChildContent>
         </MudMenu>
-        <MudButton Class="px-10 text-white" Href="/">Informations</MudButton>
-        <MudButton Class="px-10 text-white" Href="/">Contacts</MudButton>
+        <MudButton Class="px-10" Style="@($"color:{Colors.Shades.White};")" Href="/info">Informations</MudButton>
+        <MudButton Class="px-10" Style="@($"color:{Colors.Shades.White};")" Href="/contact">Contacts</MudButton>
         <AuthorizeView Roles="Admin">
             <Authorized>
-                <MudButton Class="px-16 text-white" Href="checkOut">CheckOut</MudButton>
-                <MudNavGroup Style="@($"color:{Colors.Shades.White};")" Title="Admin" @onclick="OpenOverlay">
-                    <MudNavLink Style="@($"color:{Colors.Shades.White};")" Href="addProduct">Add_Product</MudNavLink>
-                    <MudNavLink Style="@($"color:{Colors.Shades.White};")" Href="updateProduct">Update_Product</MudNavLink>
-                    <MudNavLink Style="@($"color:{Colors.Shades.White};")" Href="updateUser">Update_User</MudNavLink>
-                </MudNavGroup>
+                <MudButton Class="px-16" Style="@($"color:{Colors.Shades.White};")" Href="checkOut">CheckOut</MudButton>
+                <MudMenu Class="px-6">
+                    <ActivatorContent>
+                        <MudButton StartIcon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Info" Class="px-6" Variant="Variant.Text" Style="@($"color:{Colors.Shades.White};")">Administrator</MudButton>
+                    </ActivatorContent>
+                    <ChildContent>
+                        <MudNavLink Style="@($"color:{Colors.Shades.Black};")" Href="addProduct">Add_Product</MudNavLink>
+                        <MudNavLink Style="@($"color:{Colors.Shades.Black};")" Href="updateProduct">Update_Product</MudNavLink>
+                        <MudNavLink Style="@($"color:{Colors.Shades.Black};")" Href="updateUser">Update_User</MudNavLink>
+                    </ChildContent>
+                </MudMenu>
             </Authorized>
         </AuthorizeView>
     </MudButtonGroup>
@@ -43,9 +53,5 @@
     public void Search(string tag)
     {
         navManager.NavigateTo($"/itemByTag/{tag}", true);
-    }
-    public void OpenOverlay()
-    {
-        StateHasChanged();
     }
 }
