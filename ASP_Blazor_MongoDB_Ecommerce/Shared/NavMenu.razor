@@ -1,29 +1,29 @@
 ﻿@inject NavigationManager navManager
-<MudNavMenu Class="mx-auto" Style="@($"background:{Colors.Teal.Darken2};")">
+<MudNavMenu Style="@($"background:{Colors.Teal.Darken2};")">
     <MudButtonGroup Class="mx-16">
         <MudMenu  Color="Color.Error" StartIcon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Info" Class="px-6" Variant="Variant.Text">
             <ActivatorContent>
                 <MudButton StartIcon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Info" Class="px-6" Variant="Variant.Text" Style="@($"color:{Colors.Shades.White};")">Products</MudButton>
             </ActivatorContent>
             <ChildContent>
-                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(samsung)">
-                    <MudText >Samsung</MudText>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(telefon)">
+                    <MudText >Telefoane</MudText>
                 </MudMenuItem>
-                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(apple)">
-                    <MudText>Apple</MudText>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(tableta)">
+                    <MudText>Tablete</MudText>
                 </MudMenuItem>            
-                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(xiaomi)">
-                    <MudText >Xiaomi</MudText>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(Laptop)">
+                    <MudText >Laptop</MudText>
                 </MudMenuItem>
-                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(nokia)">
-                    <MudText>Nokia</MudText>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(periferice)">
+                    <MudText>Aceesori periferice</MudText>
                 </MudMenuItem>
-                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(sony)">
-                    <MudText>Sony</MudText>
+                <MudMenuItem Class="" Style="width: 150px" @onclick="()=>Search(accesori)">
+                    <MudText>Accessori</MudText>
                 </MudMenuItem>
             </ChildContent>
         </MudMenu>
-        <MudButton Class="px-10" Style="@($"color:{Colors.Shades.White};")" Href="/info">Informations</MudButton>
+        <MudButton Class="px-10" Style="@($"color:{Colors.Shades.White};")" Href="/info">About Us</MudButton>
         <MudButton Class="px-10" Style="@($"color:{Colors.Shades.White};")" Href="/contact">Contacts</MudButton>
         <AuthorizeView Roles="Admin">
             <Authorized>
@@ -43,11 +43,11 @@
     </MudButtonGroup>
 </MudNavMenu>
 @code {
-    public string samsung = "samsung";
-    public string apple = "apple";
-    public string xiaomi = "xiaomi";
-    public string nokia = "nokia";
-    public string sony = "sony";
+    public string telefon = "telefon";
+    public string tableta = "tableta";
+    public string Laptop = "laprop";
+    public string periferice = "periferice";
+    public string accesori = "accesori";
 
 
     public void Search(string tag)

@@ -14,7 +14,7 @@
         <MudText Class="py-2 my-2 pl-2">Select Images:</MudText>  
         <InputFile class="ml-2" OnChange="@OnChange" multiple/>
     </MudItem>
-        <MudGrid Class="my-4 d-flex align-content-start flex-wrap flex-grow-1 gap-2">
+     <MudGrid Class="my-4 d-flex align-content-start flex-wrap flex-grow-1 gap-2">
         @foreach(var imageUrl in imageUrls)
         {
             <MudItem Class="" Style="width:300px; height:300px">
@@ -51,7 +51,7 @@
 
         foreach(var imageFile  in imageFiles)
         {
-            long maxFileSize = 1024 * 1024 * 5; // aprox 5mb dimensiune mai mare nu vrea
+            long maxFileSize = 1024 * 1024 * 5; // 5 MB or whatever
             var readStream = (await imageFile.RequestImageFileAsync(format, 600, 600)).OpenReadStream(maxFileSize);
             var buf = new byte[readStream.Length];
             var ms = new MemoryStream(buf);

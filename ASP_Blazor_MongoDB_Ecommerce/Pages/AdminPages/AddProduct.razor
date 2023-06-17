@@ -52,7 +52,7 @@
         {
             if (string.Equals(file.ContentType, format, StringComparison.OrdinalIgnoreCase))
             {
-                long maxFileSize = 1024 * 1024 * 5; // 5 MB or whatever, don't just use max int
+                long maxFileSize = 1024 * 1024 * 5; // 5 MB or whatever
                 var readStream = (await file.RequestImageFileAsync(format, 600, 600)).OpenReadStream(maxFileSize);
                 var buf = new byte[readStream.Length];
                 var ms = new MemoryStream(buf);

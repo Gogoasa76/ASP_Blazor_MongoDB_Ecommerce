@@ -1,38 +1,17 @@
 ﻿@page "/info"
 
 <MudContainer Class="mt-10" Style="width:70%">
-    <MudText>
-        About Us
-        <br />        <br />
-        Welcome to [Your Company Name]! We are a [brief description of your company's mission, values, and purpose]. With [number of years/experience] of experience in the industry, we strive to provide [products/services] of the highest quality to our valued customers.
-        <br />        <br />
-        Our Vision
-        <br />
-        At [Your Company Name], our vision is to [describe your long-term goals and aspirations]. We aim to [explain how your company is making a positive impact or solving a problem].
-        <br />        <br />
-        Our Team
-        <br />
-        We are proud of our dedicated team of professionals who work tirelessly to ensure customer satisfaction. Our team is comprised of [highlight key team members and their roles]. Together, we bring a wealth of expertise and a passion for delivering exceptional [products/services].
-        <br />        <br />
-        Our Products/Services
-        <br />
-        We offer a wide range of [products/services] to cater to the diverse needs of our customers. Our [products/services] are known for their [highlight key features, benefits, or unique selling points]. Whether you are looking for [specific product/service], we have you covered.
-        <br />        <br />
-        Quality Assurance
-        <br />
-        At [Your Company Name], quality is our top priority. We are committed to delivering products/services that meet the highest standards of excellence. We carefully source our materials/components, employ rigorous quality control measures, and continuously strive for improvement.
-        <br />        <br />
-        Customer Satisfaction
-        <br />
-        We value our customers and aim to provide exceptional customer service. Your satisfaction is important to us, and we are always here to address any questions, concerns, or feedback you may have. We greatly appreciate your support and trust in our company.
-        <br />
-        <br />
-        You can also use the contact form on our website to get in touch with us. We will respond to your queries as promptly as possible.
-        <br />        <br />
-        Thank you for choosing [Your Company Name]. We look forward to serving you and exceeding your expectations!
-        <br />        <br />
-        Note: Please remember to personalize this template by inserting relevant information about your own company, its offerings, and contact details.
-    </MudText>
+    <MudList>
+        <MudItem>
+            <MudText Typo="Typo.h4" Style="@($"color:{Colors.Shades.Black};")">About Us</MudText>
+        </MudItem>
+        <MudItem>
+            <MudText Class="mt-6" Style="@($"color:{Colors.Shades.Black};")">Descrierea companieie si cu ce se ocupa aceasta.</MudText>
+        </MudItem>
+        <MudItem>
+            <MudText Class="mt-6" Style="@($"color:{Colors.Shades.Black};")">Informatii pentru utilizatori.</MudText>
+        </MudItem>
+    </MudList>
 </MudContainer>
 @code {
 

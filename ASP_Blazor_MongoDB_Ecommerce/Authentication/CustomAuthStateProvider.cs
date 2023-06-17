@@ -6,9 +6,8 @@ namespace ASP_Blazor_MongoDB_Ecommerce.Authentication
 {
     public class CustomAuthStateProvider : AuthenticationStateProvider
     {
+        #region auth
         private readonly ProtectedSessionStorage _sessionStorage;
-        private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
-
         public CustomAuthStateProvider(ProtectedSessionStorage sessionStorage)
         {
             _sessionStorage = sessionStorage;
@@ -33,6 +32,8 @@ namespace ASP_Blazor_MongoDB_Ecommerce.Authentication
                 return await Task.FromResult(new AuthenticationState(_anonymous));
             }
         }
+        #endregion
+        private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
 
         public async Task UpdateAuthenticationState(UserSession userSession)
         {

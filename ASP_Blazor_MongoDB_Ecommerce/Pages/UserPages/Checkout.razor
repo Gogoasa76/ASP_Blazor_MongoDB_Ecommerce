@@ -29,15 +29,15 @@
                 <MudRadioGroup @bind-SelectedOption="@SelectedOption" Class="pl-8 mt-8">
                     <MudText Class="" Typo="Typo.h6">Payment type</MudText>
                     <MudRadio Class="col-12" Option="@("Radio 1")" Color="Color.Error" >Ramburs</MudRadio>
-                    <MudRadio Class="col-12" Option="@("Radio 2")" Color="Color.Error">Online with bancking card</MudRadio>
+                    <MudRadio Class="col-12" Option="@("Radio 2")" Color="Color.Error" Disabled="true">Online with bancking card</MudRadio>
                 </MudRadioGroup>
                 <MudPaper Class="pa-4 mt-4">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Continue to checkout</MudButton>
                 </MudPaper>
             </MudPaper>
         </MudItem>
-        <MudItem xs="6">
-            <MudPaper Style="width: 100%">
+        <MudItem xs="6" Class="d-flex">
+            <MudPaper Style="width: 100%" >
                 <MudForm Class="row g-6 mx-auto" Style="width:95%" @bind-IsValid="@success" @bind-Errors="@errors" ReadOnly="false">
                     <MudText Class="col-6  mt-2" Typo="Typo.h6">Your cart</MudText>
                     <MudList>

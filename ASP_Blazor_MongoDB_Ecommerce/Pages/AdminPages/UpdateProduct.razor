@@ -23,6 +23,12 @@
             <MudText>Price</MudText>
             <input class="form-control"  @bind="product.Price" type="number" />
         </MudItem>
+        <MudItem>
+            <MudText>Image</MudText>
+            <label class="form-label" for="title">
+                <InputFile OnChange="@OnChange" multiple></InputFile>
+            </label>
+        </MudItem>
         <MudButton @onclick="SubmitItem" Class="mr-4 my-3" Style="@($"color:{Colors.Shades.White}; background:{Colors.Cyan.Darken3};")">Update</MudButton>
     </MudList>
 </MudContainer>
@@ -43,5 +49,24 @@
         product.Tags = Tags.Split(",").ToList();
         await mongo.UpdateProduct(product);
         nav.NavigateTo("/updateProduct");
+    }
+
+    async Task OnChange(InputFileChangeEventArgs e)
+    {
+        string format = "image/jpeg";
+
+        foreach (IBrowserFile file in e.GetMultipleFiles())
+        {
+            if (string.Equals(file.ContentType, format, StringComparison.OrdinalIgnoreCase))
+            {
+                long maxFileSize = 1024 * 1024 * 5; // 5 MB or whatever
+                var readStream = (await file.RequestImageFileAsync(format, 600, 600)).OpenReadStream(maxFileSize);
+                var buf = new byte[readStream.Length];
+                var ms = new MemoryStream(buf);
+                await readStream.CopyToAsync(ms);
+                var buffer = ms.ToArray();
+                product.ImageBase64 = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            }
+        }
     }
 }
