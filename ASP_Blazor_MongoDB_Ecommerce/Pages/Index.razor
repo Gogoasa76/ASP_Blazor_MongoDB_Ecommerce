@@ -15,7 +15,16 @@
         }
     </MudGrid>
 </MudLayout>
-
+<MudPaper Class="mt-8 d-flex justify-content-center" Style="@($"background:{Colors.Teal.Darken2};")">
+    <MudList>
+        <MudItem>
+            <MudText Typo="Typo.h5" Class="my-4"><a class="text-white" href="/info">About us</a></MudText>
+        </MudItem>
+        <MudItem>
+            <MudText Typo="Typo.h5" Class="my-4"><a class="text-white" href="/contact">Contact</a></MudText>
+        </MudItem>
+    </MudList>
+</MudPaper>
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
